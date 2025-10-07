@@ -1,0 +1,42 @@
+{
+  "screen1": {
+    "enabled": true,
+    "url": "https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"
+  },
+  "screen2": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen3": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen4": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen5": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen6": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen7": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen8": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen9": {
+    "enabled": false,
+    "url": ""
+  },
+  "screen10": {
+    "enabled": false,
+    "url": ""
+  }
+}
