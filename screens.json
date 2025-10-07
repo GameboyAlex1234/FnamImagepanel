@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"
+    "enabled": false,
+    "url": ""
   },
   "screen2": {
     "enabled": false,
