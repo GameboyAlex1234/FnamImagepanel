@@ -4,8 +4,8 @@
     "url": ""
   },
   "screen2": {
-    "enabled": true,
-    "url": "https://i.imgur.com/ribPNRD.png"
+    "enabled": false,
+    "url": ""
   },
   "screen3": {
     "enabled": false,
