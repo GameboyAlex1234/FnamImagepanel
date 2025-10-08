@@ -7,56 +7,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg0:#020617;
-  --bg1:#04102a;
-  --panel:#07162a;
-  --muted:#9bb0c8;
-  --accent:#60d0ff;
-  --accent2:#6ee7b7;
-  --glass:rgba(255,255,255,0.03);
-  --glass-2:rgba(255,255,255,0.02);
-  --danger:#ff6b6b;
-  --radius:14px;
-  --pad:14px;
-  --glass-border: rgba(96,208,255,0.08);
+  --bg0:#020617;--bg1:#04102a;--panel:#07162a;--muted:#9bb0c8;--accent:#60d0ff;
+  --accent2:#6ee7b7;--glass:rgba(255,255,255,0.03);--glass-2:rgba(255,255,255,0.02);
+  --danger:#ff6b6b;--radius:14px;--pad:14px;--glass-border: rgba(96,208,255,0.08);
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg0);color:#e8f6ff;overflow:hidden}
-body{
-  display:flex;align-items:center;justify-content:center;padding:26px;
-}
-
-/* Animated grid background */
-.bg-grid{
-  position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.3;
-  background-image:
-    linear-gradient(0deg, rgba(96,208,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(96,208,255,0.03) 1px, transparent 1px);
+body{display:flex;align-items:center;justify-content:center;padding:26px}
+.bg-grid{position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.3;
+  background-image:linear-gradient(0deg, rgba(96,208,255,0.03) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(96,208,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px, 40px 40px;
   animation: moveGrid 40s linear infinite, pulse 6s ease-in-out infinite;
   z-index:0;
 }
 @keyframes moveGrid{0%{background-position:0 0,0 0}100%{background-position:800px 800px,-800px -800px}}
 @keyframes pulse{0%{opacity:0.25}50%{opacity:0.32}100%{opacity:0.25}}
-
-/* Container */
-.container{
-  position:relative;z-index:2;width:1200px;max-width:calc(100vw - 40px);height:760px;
+.container{position:relative;z-index:2;width:1200px;max-width:calc(100vw - 40px);height:760px;
   border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
-  box-shadow: 0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-  display:grid;grid-template-columns:1fr 460px;gap:20px;overflow:hidden;
-  border:1px solid rgba(96,208,255,0.03);
-}
-
-/* Header */
+  box-shadow:0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  display:grid;grid-template-columns:1fr 460px;gap:20px;overflow:hidden;border:1px solid rgba(96,208,255,0.03);}
 .header{display:flex;gap:12px;align-items:center;padding:8px 6px 12px}
 .logo{width:64px;height:64px;border-radius:12px;background:#07162a;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(3,12,30,0.6)}
 .logo img{max-width:100%;max-height:100%;}
 .hgroup h1{margin:0;font-size:18px}
 .hgroup p{margin:0;color:var(--muted);font-size:13px}
-
-/* Left column */
 .left{padding:6px 6px 12px;display:flex;flex-direction:column;gap:10px;overflow:auto}
 .controls-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px}
 .controls-top .actions{display:flex;gap:8px}
@@ -64,14 +40,10 @@ body{
 .btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
 .small{padding:6px 10px;font-size:13px;border-radius:9px}
 .small-muted{color:var(--muted);font-size:13px}
-
-/* list */
 .screen-list{display:grid;gap:10px;padding:6px}
 .screen-card{display:grid;grid-template-columns:1fr 84px;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);align-items:center}
 .screen-card .meta{font-weight:600}
 .screen-card .url{color:var(--muted);font-size:12px;word-break:break-all}
-
-/* right column */
 .right{padding:10px;display:flex;flex-direction:column;gap:12px}
 .preview{flex:1;border-radius:12px;background:linear-gradient(180deg,#021026,#071a2b);display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
 .preview img{max-width:100%;max-height:100%;display:block}
@@ -82,21 +54,16 @@ body{
 .checkbox{display:flex;gap:8px;align-items:center;color:var(--muted)}
 .meta-row{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--muted)}
 textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,255,255,0.02);padding:10px;border-radius:10px;color:#cfeefc;resize:none}
-
-/* auth modal */
-.auth-backdrop{position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,13,0.75), rgba(2,6,13,0.85));display:flex;align-items:center;justify-content:center;z-index:10}
+.auth-backdrop{position:fixed;inset:0;background:rgba(2,6,13,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:10}
 .auth-box{width:460px;max-width:92%;padding:20px;border-radius:12px;background:linear-gradient(180deg,#021428,#021829);border:1px solid rgba(96,208,255,0.06);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
 .auth-box h2{margin:0 0 8px 0}
 .pin{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)}
 .auth-btn{margin-top:12px}
-
-/* responsive */
 @media(max-width:1100px){ .container{height:88vh;grid-template-columns:1fr;max-width:980px} .left{order:2;height:46vh;overflow:auto} .right{order:1} .header{display:none} }
 </style>
 </head>
 <body>
 <div class="bg-grid" aria-hidden="true"></div>
-
 <div class="container" id="app">
   <div class="header">
     <div class="logo"><img src="FnamLogo.png" alt="Logo"/></div>
@@ -105,7 +72,6 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
       <p>10-screen live editor · preview · deploy hook</p>
     </div>
   </div>
-
   <div class="left" id="leftCol">
     <div class="controls-top">
       <div class="small-muted">Edit screens below. Paste direct PNG/JPG URLs. Toggle enabled to display.</div>
@@ -124,10 +90,8 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
       <textarea id="jsonOut" readonly></textarea>
     </div>
   </div>
-
   <div class="right">
     <div class="preview" id="previewArea"><div class="small-muted">Select a screen to preview</div></div>
-
     <div class="side-panel">
       <div class="meta-row"><div class="small-muted">Selected</div><div id="selectedName" class="small-muted">none</div></div>
       <div class="field">
@@ -140,7 +104,6 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
         <button id="btnClear" class="btn small secondary">Clear</button>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <input id="netlifyHook" class="input" placeholder="Netlify deploy hook (optional)" />
         <button id="btnDeploy" class="btn small">Trigger Deploy</button>
       </div>
       <div id="previewMsg" class="small-muted">Preview status</div>
@@ -158,37 +121,30 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
 </div>
 
 <script>
-const REQUIRED_CODE = "Noah2006!";
-let model = {};
-
-const screenList = document.getElementById('screenList');
-const jsonOut = document.getElementById('jsonOut');
-const previewArea = document.getElementById('previewArea');
-const selectedName = document.getElementById('selectedName');
-const selectedUrl = document.getElementById('selectedUrl');
-const selectedEnabled = document.getElementById('selectedEnabled');
-const btnApply = document.getElementById('btnApply');
-const btnClear = document.getElementById('btnClear');
-const btnCopy = document.getElementById('btnCopy');
-const btnDownload = document.getElementById('btnDownload');
-const btnPretty = document.getElementById('btnPretty');
-const btnReset = document.getElementById('btnReset');
-const btnEnableAll = document.getElementById('btnEnableAll');
-const btnDisableAll = document.getElementById('btnDisableAll');
-const btnDeploy = document.getElementById('btnDeploy');
-const netlifyHook = document.getElementById('netlifyHook');
-const previewMsg = document.getElementById('previewMsg');
-const statusBadge = document.getElementById('statusBadge');
-let selectedKey = null;
+const REQUIRED_CODE="Noah2006!";
+const NETLIFY_HOOK="https://api.netlify.com/build_hooks/68e6195e434d22222939390a";
+let model={};
+let selectedKey=null;
+const screenList=document.getElementById('screenList');
+const jsonOut=document.getElementById('jsonOut');
+const previewArea=document.getElementById('previewArea');
+const selectedName=document.getElementById('selectedName');
+const selectedUrl=document.getElementById('selectedUrl');
+const selectedEnabled=document.getElementById('selectedEnabled');
+const btnApply=document.getElementById('btnApply');
+const btnClear=document.getElementById('btnClear');
+const btnDeploy=document.getElementById('btnDeploy');
+const previewMsg=document.getElementById('previewMsg');
+const authEl=document.getElementById('auth');
+const unlockBtn=document.getElementById('unlockBtn');
+const accessCode=document.getElementById('accessCode');
+const authMsg=document.getElementById('authMsg');
 
 async function loadJSON(){
   try{
-    const res = await fetch('https://FnamImagePanel.netlify.app/screens.json');
-    if(res.ok){
-      model = await res.json();
-      renderList();
-      updateJson();
-    } else { console.warn('Failed to load JSON'); }
+    const res=await fetch('https://FnamImagePanel.netlify.app/screens.json');
+    if(res.ok){ model=await res.json(); renderList(); updateJson(); }
+    else{ console.warn('Failed to load JSON'); }
   }catch(e){ console.error('Error fetching JSON', e); }
 }
 
@@ -196,18 +152,13 @@ function renderList(){
   screenList.innerHTML='';
   Object.keys(model).forEach(k=>{
     const meta=model[k];
-    const card=document.createElement('div');
-    card.className='screen-card';
+    const card=document.createElement('div'); card.className='screen-card';
     const left=document.createElement('div');
     left.innerHTML=`<div class="meta">${k}</div><div class="url">${meta.url?meta.url:'(no url)'}</div>`;
-    const right=document.createElement('div');right.style.display='flex';right.style.flexDirection='column';right.style.alignItems='flex-end';right.style.gap='8px';
-    const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=!!meta.enabled;
-    chk.addEventListener('change',e=>{ model[k].enabled=e.target.checked; updateJson(); });
-    const btn=document.createElement('button'); btn.className='btn small'; btn.textContent='Edit';
-    btn.addEventListener('click',()=>selectKey(k));
-    right.appendChild(chk);right.appendChild(btn);
-    card.appendChild(left);card.appendChild(right);
-    screenList.appendChild(card);
+    const right=document.createElement('div'); right.style.display='flex';right.style.flexDirection='column';right.style.alignItems='flex-end';right.style.gap='8px';
+    const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=!!meta.enabled; chk.addEventListener('change',e=>{ model[k].enabled=e.target.checked; updateJson(); });
+    const btn=document.createElement('button'); btn.className='btn small'; btn.textContent='Edit'; btn.addEventListener('click',()=>selectKey(k));
+    right.appendChild(chk); right.appendChild(btn); card.appendChild(left); card.appendChild(right); screenList.appendChild(card);
   });
   updateJson();
 }
@@ -233,11 +184,16 @@ btnApply.addEventListener('click',()=>{ if(!selectedKey) return; model[selectedK
 btnClear.addEventListener('click',()=>{ if(!selectedKey) return; model[selectedKey].url=''; model[selectedKey].enabled=false; renderList(); selectKey(selectedKey); });
 function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
 
-/* auth logic */
-const authEl=document.getElementById('auth');
-const unlockBtn=document.getElementById('unlockBtn');
-const accessCode=document.getElementById('accessCode');
-const authMsg=document.getElementById('authMsg');
+btnDeploy.addEventListener('click',async()=>{
+  try{
+    btnDeploy.textContent="Deploying...";
+    const res=await fetch(NETLIFY_HOOK,{method:'POST'});
+    if(res.ok) previewMsg.textContent="Deploy triggered!";
+    else previewMsg.textContent="Deploy failed!";
+  }catch(e){ previewMsg.textContent="Deploy error!"; console.error(e); }
+  finally{ btnDeploy.textContent="Trigger Deploy"; }
+});
+
 unlockBtn.addEventListener('click',attemptUnlock);
 accessCode.addEventListener('keydown',e=>{ if(e.key==='Enter') attemptUnlock(); });
 function attemptUnlock(){
