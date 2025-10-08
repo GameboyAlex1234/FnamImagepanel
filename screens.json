@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://fnamimagepanel.netlify.app/FnamLogo.png"
   },
   "screen2": {
     "enabled": false,
