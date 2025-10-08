@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Fnam Image Panel — Editor</title>
+<title>Fnam Admin Screen Editor</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -25,30 +25,25 @@
 html,body{height:100%;margin:0;background:var(--bg0);color:#e8f6ff;overflow:hidden}
 body{
   display:flex;align-items:center;justify-content:center;padding:26px;
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(96,208,255,0.03) 0%, transparent 15%),
-    linear-gradient(180deg,var(--bg0),var(--bg1));
 }
 
 /* Animated grid background */
 .bg-grid{
-  position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.28;
+  position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.3;
   background-image:
-    linear-gradient(0deg, rgba(96,208,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(96,208,255,0.015) 1px, transparent 1px);
+    linear-gradient(0deg, rgba(96,208,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96,208,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px, 40px 40px;
-  transform: translateZ(0);
-  animation: moveGrid 30s linear infinite, pulse 6s ease-in-out infinite;
-  filter: drop-shadow(0 6px 18px rgba(32,150,200,0.06));
+  animation: moveGrid 40s linear infinite, pulse 6s ease-in-out infinite;
   z-index:0;
 }
-@keyframes moveGrid{from{background-position:0 0,0 0}to{background-position:800px 800px, -800px -800px}}
-@keyframes pulse{0%{opacity:0.24}50%{opacity:0.32}100%{opacity:0.24}}
+@keyframes moveGrid{0%{background-position:0 0,0 0}100%{background-position:800px 800px,-800px -800px}}
+@keyframes pulse{0%{opacity:0.25}50%{opacity:0.32}100%{opacity:0.25}}
 
 /* Container */
 .container{
   position:relative;z-index:2;width:1200px;max-width:calc(100vw - 40px);height:760px;
-  border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
   box-shadow: 0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
   display:grid;grid-template-columns:1fr 460px;gap:20px;overflow:hidden;
   border:1px solid rgba(96,208,255,0.03);
@@ -56,7 +51,8 @@ body{
 
 /* Header */
 .header{display:flex;gap:12px;align-items:center;padding:8px 6px 12px}
-.logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#02293f,#003a66);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:20px;box-shadow:0 6px 24px rgba(3,12,30,0.6)}
+.logo{width:64px;height:64px;border-radius:12px;background:#07162a;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(3,12,30,0.6)}
+.logo img{max-width:100%;max-height:100%;}
 .hgroup h1{margin:0;font-size:18px}
 .hgroup p{margin:0;color:var(--muted);font-size:13px}
 
@@ -85,12 +81,7 @@ body{
 .row{display:flex;gap:8px;align-items:center}
 .checkbox{display:flex;gap:8px;align-items:center;color:var(--muted)}
 .meta-row{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--muted)}
-
-/* raw json */
 textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,255,255,0.02);padding:10px;border-radius:10px;color:#cfeefc;resize:none}
-
-/* footer small */
-.footer{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:13px}
 
 /* auth modal */
 .auth-backdrop{position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,13,0.75), rgba(2,6,13,0.85));display:flex;align-items:center;justify-content:center;z-index:10}
@@ -107,20 +98,11 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
 <div class="bg-grid" aria-hidden="true"></div>
 
 <div class="container" id="app">
-  <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:6px 8px 0">
-    <div class="logo">FIP</div>
-    <div style="flex:1">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-weight:700">Fnam Image Panel — Editor</div>
-          <div class="small-muted">10-screen live editor · preview · deploy hook</div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <div id="statusBadge" style="font-weight:600;color:var(--muted)">Idle</div>
-          <button id="btnCopy" class="btn small">Copy JSON</button>
-          <button id="btnDownload" class="btn small secondary">Download</button>
-        </div>
-      </div>
+  <div class="header">
+    <div class="logo"><img src="FnamLogo.png" alt="Logo"/></div>
+    <div class="hgroup">
+      <h1>Fnam Admin Screen Editor</h1>
+      <p>10-screen live editor · preview · deploy hook</p>
     </div>
   </div>
 
@@ -132,14 +114,11 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
         <button id="btnReset" class="btn small">Reset</button>
       </div>
     </div>
-
     <div class="screen-list" id="screenList"></div>
-
     <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:6px">
       <button id="btnEnableAll" class="btn small">Enable All</button>
       <button id="btnDisableAll" class="btn small secondary">Disable All</button>
     </div>
-
     <div style="margin-top:8px">
       <div class="small-muted">Raw JSON</div>
       <textarea id="jsonOut" readonly></textarea>
@@ -151,39 +130,28 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
 
     <div class="side-panel">
       <div class="meta-row"><div class="small-muted">Selected</div><div id="selectedName" class="small-muted">none</div></div>
-
       <div class="field">
         <div class="small-muted">Image URL</div>
         <input id="selectedUrl" class="input" type="text" placeholder="https://i.example.com/myimage.png" />
       </div>
-
       <div class="row">
         <label class="checkbox"><input id="selectedEnabled" type="checkbox" /> Enabled</label>
         <button id="btnApply" class="btn small">Apply</button>
         <button id="btnClear" class="btn small secondary">Clear</button>
       </div>
-
       <div style="display:flex;justify-content:space-between;align-items:center">
         <input id="netlifyHook" class="input" placeholder="Netlify deploy hook (optional)" />
         <button id="btnDeploy" class="btn small">Trigger Deploy</button>
       </div>
-
       <div id="previewMsg" class="small-muted">Preview status</div>
     </div>
-
-  </div>
-
-  <div style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding-top:8px">
-    <div class="small-muted">Local editor · edits commit to JSON download or trigger your deploy hook</div>
-    <div class="small-muted">Theme: blue · Grid animated · Locked by code</div>
   </div>
 </div>
 
 <div class="auth-backdrop" id="auth">
   <div class="auth-box">
     <h2>Enter access code</h2>
-    <div class="small-muted" style="margin-bottom:10px">Type the code to unlock the editor.</div>
-    <input id="accessCode" class="pin" placeholder="Enter code" />
+    <input id="accessCode" type="password" class="pin" placeholder="••••••••" />
     <button id="unlockBtn" class="btn auth-btn">Unlock</button>
     <div id="authMsg" style="margin-top:8px;color:var(--muted)"></div>
   </div>
@@ -191,18 +159,7 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
 
 <script>
 const REQUIRED_CODE = "Noah2006!";
-let model = {
-  screen1:{enabled:true,url:"https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"},
-  screen2:{enabled:false,url:""},
-  screen3:{enabled:false,url:""},
-  screen4:{enabled:false,url:""},
-  screen5:{enabled:false,url:""},
-  screen6:{enabled:false,url:""},
-  screen7:{enabled:false,url:""},
-  screen8:{enabled:false,url:""},
-  screen9:{enabled:false,url:""},
-  screen10:{enabled:false,url:""}
-};
+let model = {};
 
 const screenList = document.getElementById('screenList');
 const jsonOut = document.getElementById('jsonOut');
@@ -222,147 +179,76 @@ const btnDeploy = document.getElementById('btnDeploy');
 const netlifyHook = document.getElementById('netlifyHook');
 const previewMsg = document.getElementById('previewMsg');
 const statusBadge = document.getElementById('statusBadge');
-
 let selectedKey = null;
 
+async function loadJSON(){
+  try{
+    const res = await fetch('https://FnamImagePanel.netlify.app/screens.json');
+    if(res.ok){
+      model = await res.json();
+      renderList();
+      updateJson();
+    } else { console.warn('Failed to load JSON'); }
+  }catch(e){ console.error('Error fetching JSON', e); }
+}
+
 function renderList(){
-  screenList.innerHTML = '';
+  screenList.innerHTML='';
   Object.keys(model).forEach(k=>{
-    const meta = model[k];
-    const card = document.createElement('div');
-    card.className = 'screen-card';
-    const left = document.createElement('div');
-    left.innerHTML = `<div class="meta">${k}</div><div class="url">${meta.url?meta.url:'(no url)'}</div>`;
-    const right = document.createElement('div');
-    right.style.display='flex'; right.style.flexDirection='column'; right.style.alignItems='flex-end'; right.style.gap='8px';
-    const chk = document.createElement('input'); chk.type='checkbox'; chk.checked = !!meta.enabled;
-    chk.addEventListener('change', e => { model[k].enabled = e.target.checked; updateJson(); });
-    const btn = document.createElement('button'); btn.className='btn small'; btn.textContent='Edit';
-    btn.addEventListener('click', ()=> selectKey(k));
-    right.appendChild(chk); right.appendChild(btn);
-    card.appendChild(left); card.appendChild(right);
+    const meta=model[k];
+    const card=document.createElement('div');
+    card.className='screen-card';
+    const left=document.createElement('div');
+    left.innerHTML=`<div class="meta">${k}</div><div class="url">${meta.url?meta.url:'(no url)'}</div>`;
+    const right=document.createElement('div');right.style.display='flex';right.style.flexDirection='column';right.style.alignItems='flex-end';right.style.gap='8px';
+    const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=!!meta.enabled;
+    chk.addEventListener('change',e=>{ model[k].enabled=e.target.checked; updateJson(); });
+    const btn=document.createElement('button'); btn.className='btn small'; btn.textContent='Edit';
+    btn.addEventListener('click',()=>selectKey(k));
+    right.appendChild(chk);right.appendChild(btn);
+    card.appendChild(left);card.appendChild(right);
     screenList.appendChild(card);
   });
   updateJson();
 }
 
 function selectKey(k){
-  selectedKey = k;
-  selectedName.textContent = k;
-  selectedUrl.value = model[k].url;
-  selectedEnabled.checked = !!model[k].enabled;
+  selectedKey=k;
+  selectedName.textContent=k;
+  selectedUrl.value=model[k].url;
+  selectedEnabled.checked=!!model[k].enabled;
   renderPreview(model[k].url);
 }
 
 function renderPreview(url){
-  previewArea.innerHTML = '';
-  if(!url){ previewArea.innerHTML = '<div class="small-muted">No preview</div>'; previewMsg.textContent='No URL'; return; }
-  const img = new Image();
-  img.onload = ()=> { previewArea.innerHTML=''; previewArea.appendChild(img); previewMsg.textContent='Loaded'; };
-  img.onerror = ()=> { previewArea.innerHTML='<div style="color:var(--danger);font-weight:700">Failed to load preview</div>'; previewMsg.textContent='Load error'; };
-  img.src = url;
-  img.style.maxWidth = '100%';
-  img.style.maxHeight = '100%';
-  previewMsg.textContent='Loading...';
+  previewArea.innerHTML='';
+  if(!url){ previewArea.innerHTML='<div class="small-muted">No preview</div>'; previewMsg.textContent='No URL'; return; }
+  const img=new Image();
+  img.onload=()=>{ previewArea.innerHTML=''; previewArea.appendChild(img); previewMsg.textContent='Loaded'; };
+  img.onerror=()=>{ previewArea.innerHTML='<div style="color:#ff6b6b;font-weight:700">Failed to load preview</div>'; previewMsg.textContent='Load error'; };
+  img.src=url; img.style.maxWidth='100%'; img.style.maxHeight='100%'; previewMsg.textContent='Loading...';
 }
 
-btnApply.addEventListener('click', ()=>{
-  if(!selectedKey) return;
-  model[selectedKey].url = selectedUrl.value.trim();
-  model[selectedKey].enabled = selectedEnabled.checked;
-  renderList();
-  selectKey(selectedKey);
-});
-
-btnClear.addEventListener('click', ()=>{
-  if(!selectedKey) return;
-  model[selectedKey].url = ''; model[selectedKey].enabled = false;
-  renderList(); selectKey(selectedKey);
-});
-
-btnCopy.addEventListener('click', ()=>{
-  navigator.clipboard.writeText(JSON.stringify(model,null,2)).then(()=>{
-    statusBadge.textContent = 'JSON copied';
-    setTimeout(()=>statusBadge.textContent='Idle',1200);
-  });
-});
-
-btnDownload.addEventListener('click', ()=>{
-  const blob = new Blob([JSON.stringify(model,null,2)],{type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'screens.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-  statusBadge.textContent = 'Downloaded';
-  setTimeout(()=>statusBadge.textContent='Idle',1200);
-});
-
-btnPretty.addEventListener('click', ()=> { jsonOut.value = JSON.stringify(model,null,2); statusBadge.textContent='Pretty JSON'; setTimeout(()=>statusBadge.textContent='Idle',800); });
-btnReset.addEventListener('click', ()=> { model = JSON.parse(JSON.stringify({
-  screen1:{enabled:true,url:"https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"},
-  screen2:{enabled:false,url:""},
-  screen3:{enabled:false,url:""},
-  screen4:{enabled:false,url:""},
-  screen5:{enabled:false,url:""},
-  screen6:{enabled:false,url:""},
-  screen7:{enabled:false,url:""},
-  screen8:{enabled:false,url:""},
-  screen9:{enabled:false,url:""},
-  screen10:{enabled:false,url:""}
-})); renderList(); statusBadge.textContent='Reset'; setTimeout(()=>statusBadge.textContent='Idle',900); });
-
-btnEnableAll.addEventListener('click', ()=> { Object.keys(model).forEach(k=>model[k].enabled=true); renderList(); statusBadge.textContent='All enabled'; setTimeout(()=>statusBadge.textContent='Idle',900); });
-btnDisableAll.addEventListener('click', ()=> { Object.keys(model).forEach(k=>model[k].enabled=false); renderList(); statusBadge.textContent='All disabled'; setTimeout(()=>statusBadge.textContent='Idle',900); });
-
-btnDeploy.addEventListener('click', triggerDeploy);
-
-function updateJson(){ jsonOut.value = JSON.stringify(model,null,2); }
-
-async function triggerDeploy(){
-  const hook = netlifyHook.value.trim();
-  if(!hook){ statusBadge.textContent='No hook set'; setTimeout(()=>statusBadge.textContent='Idle',1000); return; }
-  statusBadge.textContent='Triggering deploy...';
-  try{
-    const res = await fetch(hook, {method:'POST'});
-    if(res.ok) statusBadge.textContent='Deploy triggered';
-    else statusBadge.textContent = 'Deploy failed';
-  }catch(e){ statusBadge.textContent = 'Deploy error'; }
-  setTimeout(()=>statusBadge.textContent='Idle',2200);
-}
-
-renderList();
-updateJson();
+btnApply.addEventListener('click',()=>{ if(!selectedKey) return; model[selectedKey].url=selectedUrl.value.trim(); model[selectedKey].enabled=selectedEnabled.checked; renderList(); selectKey(selectedKey); });
+btnClear.addEventListener('click',()=>{ if(!selectedKey) return; model[selectedKey].url=''; model[selectedKey].enabled=false; renderList(); selectKey(selectedKey); });
+function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
 
 /* auth logic */
-const authEl = document.getElementById('auth');
-const unlockBtn = document.getElementById('unlockBtn');
-const accessCode = document.getElementById('accessCode');
-const authMsg = document.getElementById('authMsg');
-
-unlockBtn.addEventListener('click', attemptUnlock);
-accessCode.addEventListener('keydown', e => { if(e.key==='Enter') attemptUnlock(); });
-
+const authEl=document.getElementById('auth');
+const unlockBtn=document.getElementById('unlockBtn');
+const accessCode=document.getElementById('accessCode');
+const authMsg=document.getElementById('authMsg');
+unlockBtn.addEventListener('click',attemptUnlock);
+accessCode.addEventListener('keydown',e=>{ if(e.key==='Enter') attemptUnlock(); });
 function attemptUnlock(){
-  const v = accessCode.value || '';
-  if(v === REQUIRED_CODE){
-    authEl.style.transition = 'opacity 250ms ease'; authEl.style.opacity = '0';
-    setTimeout(()=> authEl.remove(), 260);
-    statusBadge.textContent = 'Unlocked';
-  } else {
-    authMsg.textContent = 'Invalid code';
-    accessCode.classList.add('shake');
-    setTimeout(()=>{ accessCode.classList.remove('shake'); },400);
-  }
+  const v=accessCode.value||'';
+  if(v===REQUIRED_CODE){ authEl.style.transition='opacity 250ms ease'; authEl.style.opacity='0'; setTimeout(()=> authEl.remove(),260);}
+  else{ authMsg.textContent='Invalid code'; accessCode.classList.add('shake'); setTimeout(()=>{ accessCode.classList.remove('shake'); },400);}
 }
 
-/* small shake style injection */
-const s = document.createElement('style');
-s.innerHTML = `
-.shake{animation:shake 0.35s}
-@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}
-`;
-document.head.appendChild(s);
+const s=document.createElement('style'); s.innerHTML=`.shake{animation:shake 0.35s}@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}`; document.head.appendChild(s);
 
-/* prevent scrolling on body while editor fixed-size */
-document.body.addEventListener('touchmove', e => e.preventDefault(), {passive:false});
+loadJSON();
 </script>
 </body>
 </html>
