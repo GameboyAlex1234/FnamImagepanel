@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fnam Image Panel — Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0d10;--surface:#0f1114;--muted:#9aa3ad;--accent:#6ee7b7;--danger:#ff6b6b;--glass:rgba(255,255,255,0.03);
+  --pad:14px;--radius:12px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:linear-gradient(180deg,#060708 0%, #0b0d10 100%);
+  color:#e6eef3; -webkit-font-smoothing:antialiased;padding:28px;
+}
+.container{max-width:1100px;margin:0 auto}
+.header{
+  display:flex;align-items:center;gap:16px;margin-bottom:20px;
+}
+.logo{
+  width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#1b1f24,#111216);
+  display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:18px;box-shadow:0 4px 18px rgba(0,0,0,0.6);
+}
+.hgroup{display:flex;flex-direction:column}
+.hgroup h1{margin:0;font-size:18px}
+.hgroup p{margin:0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 420px;gap:20px}
+.panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,10,0.6)}
+.left{display:grid;gap:12px}
+.row{display:flex;gap:12px;align-items:center}
+.screen-card{display:grid;grid-template-columns:1fr 110px;gap:12px;padding:12px;border-radius:10px;background:var(--glass);align-items:center}
+.controls{display:flex;flex-direction:column;gap:8px}
+.controls label{font-size:12px;color:var(--muted)}
+.controls input[type="text"]{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:inherit}
+.controls .row-inline{display:flex;gap:8px;align-items:center}
+.checkbox{display:flex;align-items:center;gap:8px}
+.btn{background:linear-gradient(90deg,#182126,#0f1416);color:var(--accent);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+.btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+.small{font-size:13px;padding:6px 8px;border-radius:8px}
+.preview{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#0b0d10;border-radius:8px;overflow:hidden;min-height:140px}
+.preview img{max-width:100%;max-height:100%;display:block}
+.meta{display:flex;justify-content:space-between;gap:8px;margin-top:12px;align-items:center}
+.footer{margin-top:14px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
+.notice{font-size:13px;color:var(--muted)}
+textarea{width:100%;height:180px;background:#060708;border:1px solid rgba(255,255,255,0.03);padding:10px;border-radius:8px;color:#dfe9ef}
+.hr{height:1px;background:rgba(255,255,255,0.02);margin:8px 0;border-radius:2px}
+.screen-list{display:grid;gap:10px}
+.deploy-row{display:flex;gap:8px;align-items:center}
+.small-muted{font-size:12px;color:var(--muted)}
+.footer-left{display:flex;gap:8px;align-items:center}
+.copyok{color:var(--accent);font-weight:600}
+.error{color:var(--danger)}
+@media(max-width:960px){
+  .grid{grid-template-columns:1fr; }
+  .preview{min-height:200px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">FIP</div>
+    <div class="hgroup">
+      <h1>Fnam Image Panel — Editor</h1>
+      <p>10-screen JSON editor · live preview · export & deploy</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel left">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="small-muted">Edit screens below. Paste a direct image URL (png/jpg). Toggle enabled to show.</div>
+        <div style="display:flex;gap:8px">
+          <button id="btnCopy" class="btn small">Copy JSON</button>
+          <button id="btnDownload" class="btn small secondary">Download JSON</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="screen-list" id="screenList"></div>
+
+      <div class="hr"></div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input id="netlifyHook" placeholder="Netlify deploy hook (optional)" class="small" style="min-width:260px" />
+        <button id="btnDeploy" class="btn small">Trigger Netlify Deploy</button>
+        <div id="deployStatus" class="small-muted">Deploy status idle</div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div>
+        <div class="small-muted">Raw JSON</div>
+        <textarea id="jsonOut" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="notice">Preview</div>
+          <div class="small-muted">Click any screen to preview or change URL. Previews update instantly.</div>
+        </div>
+        <div>
+          <button id="btnPretty" class="btn small secondary">Pretty JSON</button>
+          <button id="btnReset" class="btn small">Reset Defaults</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+        <div class="preview" id="previewArea"><div class="small-muted">No preview selected</div></div>
+        <div>
+          <div class="meta"><div class="small-muted">Selected</div><div id="selectedName" class="small-muted">none</div></div>
+          <div style="margin-top:12px">
+            <div class="small-muted">Image URL</div>
+            <input id="selectedUrl" type="text" class="small" style="width:100%;margin-top:8px" />
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <label class="checkbox"><input id="selectedEnabled" type="checkbox" /> Enabled</label>
+            <button id="btnApply" class="btn small">Apply</button>
+            <button id="btnClear" class="btn small secondary">Clear</button>
+          </div>
+          <div style="margin-top:12px"><div id="previewMsg" class="small-muted"></div></div>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="small-muted">Quick actions</div>
+        <div style="display:flex;gap:8px">
+          <button id="btnEnableAll" class="btn small">Enable All</button>
+          <button id="btnDisableAll" class="btn small secondary">Disable All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const DEFAULT = {
+  screen1:{enabled:true,url:"https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"},
+  screen2:{enabled:false,url:""},
+  screen3:{enabled:false,url:""},
+  screen4:{enabled:false,url:""},
+  screen5:{enabled:false,url:""},
+  screen6:{enabled:false,url:""},
+  screen7:{enabled:false,url:""},
+  screen8:{enabled:false,url:""},
+  screen9:{enabled:false,url:""},
+  screen10:{enabled:false,url:""}
+};
+let model=JSON.parse(JSON.stringify(DEFAULT));
+let selectedKey=null;
+const screenList=document.getElementById('screenList');
+const jsonOut=document.getElementById('jsonOut');
+const previewArea=document.getElementById('previewArea');
+const selectedName=document.getElementById('selectedName');
+const selectedUrl=document.getElementById('selectedUrl');
+const selectedEnabled=document.getElementById('selectedEnabled');
+const btnApply=document.getElementById('btnApply');
+const btnClear=document.getElementById('btnClear');
+const btnCopy=document.getElementById('btnCopy');
+const btnDownload=document.getElementById('btnDownload');
+const btnPretty=document.getElementById('btnPretty');
+const btnReset=document.getElementById('btnReset');
+const btnEnableAll=document.getElementById('btnEnableAll');
+const btnDisableAll=document.getElementById('btnDisableAll');
+const btnDeploy=document.getElementById('btnDeploy');
+const netlifyHook=document.getElementById('netlifyHook');
+const deployStatus=document.getElementById('deployStatus');
+const previewMsg=document.getElementById('previewMsg');
+
+function renderList(){
+  screenList.innerHTML='';
+  Object.keys(model).forEach(k=>{
+    const meta=model[k];
+    const card=document.createElement('div');
+    card.className='screen-card';
+    const left=document.createElement('div');
+    left.innerHTML=`<div style="font-weight:600">${k}</div><div class="small-muted" style="margin-top:6px">${meta.url?meta.url:'(no url)'}</div>`;
+    const right=document.createElement('div');
+    right.style.display='flex';
+    right.style.flexDirection='column';
+    right.style.gap='6px';
+    const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=meta.enabled;
+    chk.addEventListener('change',e=>{ model[k].enabled=e.target.checked; updateJson(); });
+    const btn=document.createElement('button'); btn.className='small btn'; btn.textContent='Edit';
+    btn.addEventListener('click',()=>selectKey(k));
+    right.appendChild(chk); right.appendChild(btn);
+    card.appendChild(left); card.appendChild(right);
+    screenList.appendChild(card);
+  });
+  updateJson();
+}
+
+function selectKey(k){
+  selectedKey=k;
+  selectedName.textContent=k;
+  selectedUrl.value=model[k].url;
+  selectedEnabled.checked=!!model[k].enabled;
+  renderPreview(model[k].url);
+}
+
+function renderPreview(url){
+  previewArea.innerHTML='';
+  if(!url){ previewArea.innerHTML='<div class="small-muted">No image</div>'; previewMsg.textContent='No URL'; return; }
+  const img=new Image();
+  img.onload=()=>{ previewArea.innerHTML=''; previewArea.appendChild(img); previewMsg.textContent='Loaded'; };
+  img.onerror=()=>{ previewArea.innerHTML='<div class="error">Failed to load preview</div>'; previewMsg.textContent='Load error'; };
+  img.src=url;
+  img.style.maxWidth='100%';
+  img.style.maxHeight='100%';
+  previewMsg.textContent='Loading...';
+}
+
+btnApply.addEventListener('click',()=>{
+  if(!selectedKey) return;
+  model[selectedKey].url = selectedUrl.value.trim();
+  model[selectedKey].enabled = selectedEnabled.checked;
+  renderList();
+  selectKey(selectedKey);
+});
+btnClear.addEventListener('click',()=>{
+  if(!selectedKey) return;
+  model[selectedKey].url=''; model[selectedKey].enabled=false;
+  renderList(); selectKey(selectedKey);
+});
+btnCopy.addEventListener('click',()=>{
+  navigator.clipboard.writeText(JSON.stringify(model,null,2)).then(()=>{ btnCopy.textContent='Copied'; setTimeout(()=>btnCopy.textContent='Copy JSON',800);});
+});
+btnDownload.addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(model,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='screens.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+});
+btnPretty.addEventListener('click',()=>{ jsonOut.value=JSON.stringify(model,null,2); });
+btnReset.addEventListener('click',()=>{ model=JSON.parse(JSON.stringify(DEFAULT)); renderList(); });
+btnEnableAll.addEventListener('click',()=>{ Object.keys(model).forEach(k=>model[k].enabled=true); renderList(); });
+btnDisableAll.addEventListener('click',()=>{ Object.keys(model).forEach(k=>model[k].enabled=false); renderList(); });
+btnDeploy.addEventListener('click',()=>triggerDeploy());
+
+function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
+
+async function triggerDeploy(){
+  const hook=netlifyHook.value.trim();
+  if(!hook){ deployStatus.textContent='No hook URL'; return; }
+  deployStatus.textContent='Triggering...';
+  try{
+    const res=await fetch(hook,{method:'POST'});
+    if(res.ok) deployStatus.textContent='Deploy triggered';
+    else deployStatus.textContent='Deploy failed: '+res.status;
+  }catch(err){ deployStatus.textContent='Deploy error'; }
+  setTimeout(()=>deployStatus.textContent='idle',2500);
+}
+
+renderList();
+updateJson();
+</script>
+</body>
+</html>
