@@ -2,149 +2,196 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Fnam Image Panel — Editor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0b0d10;--surface:#0f1114;--muted:#9aa3ad;--accent:#6ee7b7;--danger:#ff6b6b;--glass:rgba(255,255,255,0.03);
-  --pad:14px;--radius:12px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  --bg0:#020617;
+  --bg1:#04102a;
+  --panel:#07162a;
+  --muted:#9bb0c8;
+  --accent:#60d0ff;
+  --accent2:#6ee7b7;
+  --glass:rgba(255,255,255,0.03);
+  --glass-2:rgba(255,255,255,0.02);
+  --danger:#ff6b6b;
+  --radius:14px;
+  --pad:14px;
+  --glass-border: rgba(96,208,255,0.08);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%;margin:0;background:var(--bg0);color:#e8f6ff;overflow:hidden}
 body{
-  margin:0;background:linear-gradient(180deg,#060708 0%, #0b0d10 100%);
-  color:#e6eef3; -webkit-font-smoothing:antialiased;padding:28px;
+  display:flex;align-items:center;justify-content:center;padding:26px;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(96,208,255,0.03) 0%, transparent 15%),
+    linear-gradient(180deg,var(--bg0),var(--bg1));
 }
-.container{max-width:1100px;margin:0 auto}
-.header{
-  display:flex;align-items:center;gap:16px;margin-bottom:20px;
+
+/* Animated grid background */
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.28;
+  background-image:
+    linear-gradient(0deg, rgba(96,208,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96,208,255,0.015) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  transform: translateZ(0);
+  animation: moveGrid 30s linear infinite, pulse 6s ease-in-out infinite;
+  filter: drop-shadow(0 6px 18px rgba(32,150,200,0.06));
+  z-index:0;
 }
-.logo{
-  width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#1b1f24,#111216);
-  display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent);font-size:18px;box-shadow:0 4px 18px rgba(0,0,0,0.6);
+@keyframes moveGrid{from{background-position:0 0,0 0}to{background-position:800px 800px, -800px -800px}}
+@keyframes pulse{0%{opacity:0.24}50%{opacity:0.32}100%{opacity:0.24}}
+
+/* Container */
+.container{
+  position:relative;z-index:2;width:1200px;max-width:calc(100vw - 40px);height:760px;
+  border-radius:18px;padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  display:grid;grid-template-columns:1fr 460px;gap:20px;overflow:hidden;
+  border:1px solid rgba(96,208,255,0.03);
 }
-.hgroup{display:flex;flex-direction:column}
+
+/* Header */
+.header{display:flex;gap:12px;align-items:center;padding:8px 6px 12px}
+.logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#02293f,#003a66);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:20px;box-shadow:0 6px 24px rgba(3,12,30,0.6)}
 .hgroup h1{margin:0;font-size:18px}
 .hgroup p{margin:0;color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:1fr 420px;gap:20px}
-.panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,10,0.6)}
-.left{display:grid;gap:12px}
-.row{display:flex;gap:12px;align-items:center}
-.screen-card{display:grid;grid-template-columns:1fr 110px;gap:12px;padding:12px;border-radius:10px;background:var(--glass);align-items:center}
-.controls{display:flex;flex-direction:column;gap:8px}
-.controls label{font-size:12px;color:var(--muted)}
-.controls input[type="text"]{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px;border-radius:8px;color:inherit}
-.controls .row-inline{display:flex;gap:8px;align-items:center}
-.checkbox{display:flex;align-items:center;gap:8px}
-.btn{background:linear-gradient(90deg,#182126,#0f1416);color:var(--accent);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
-.btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
-.small{font-size:13px;padding:6px 8px;border-radius:8px}
-.preview{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#0b0d10;border-radius:8px;overflow:hidden;min-height:140px}
+
+/* Left column */
+.left{padding:6px 6px 12px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.controls-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px}
+.controls-top .actions{display:flex;gap:8px}
+.btn{background:linear-gradient(90deg,#053b5a,#02324a);color:var(--accent);padding:8px 12px;border-radius:10px;border:1px solid var(--glass-border);cursor:pointer;backdrop-filter:blur(4px);font-weight:600}
+.btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
+.small{padding:6px 10px;font-size:13px;border-radius:9px}
+.small-muted{color:var(--muted);font-size:13px}
+
+/* list */
+.screen-list{display:grid;gap:10px;padding:6px}
+.screen-card{display:grid;grid-template-columns:1fr 84px;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);align-items:center}
+.screen-card .meta{font-weight:600}
+.screen-card .url{color:var(--muted);font-size:12px;word-break:break-all}
+
+/* right column */
+.right{padding:10px;display:flex;flex-direction:column;gap:12px}
+.preview{flex:1;border-radius:12px;background:linear-gradient(180deg,#021026,#071a2b);display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
 .preview img{max-width:100%;max-height:100%;display:block}
-.meta{display:flex;justify-content:space-between;gap:8px;margin-top:12px;align-items:center}
-.footer{margin-top:14px;display:flex;gap:8px;align-items:center;justify-content:flex-end}
-.notice{font-size:13px;color:var(--muted)}
-textarea{width:100%;height:180px;background:#060708;border:1px solid rgba(255,255,255,0.03);padding:10px;border-radius:8px;color:#dfe9ef}
-.hr{height:1px;background:rgba(255,255,255,0.02);margin:8px 0;border-radius:2px}
-.screen-list{display:grid;gap:10px}
-.deploy-row{display:flex;gap:8px;align-items:center}
-.small-muted{font-size:12px;color:var(--muted)}
-.footer-left{display:flex;gap:8px;align-items:center}
-.copyok{color:var(--accent);font-weight:600}
-.error{color:var(--danger)}
-@media(max-width:960px){
-  .grid{grid-template-columns:1fr; }
-  .preview{min-height:200px}
-}
+.side-panel{display:flex;flex-direction:column;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02)}
+.field{display:flex;flex-direction:column;gap:6px}
+.input{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;color:inherit}
+.row{display:flex;gap:8px;align-items:center}
+.checkbox{display:flex;gap:8px;align-items:center;color:var(--muted)}
+.meta-row{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--muted)}
+
+/* raw json */
+textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,255,255,0.02);padding:10px;border-radius:10px;color:#cfeefc;resize:none}
+
+/* footer small */
+.footer{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:13px}
+
+/* auth modal */
+.auth-backdrop{position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,13,0.75), rgba(2,6,13,0.85));display:flex;align-items:center;justify-content:center;z-index:10}
+.auth-box{width:460px;max-width:92%;padding:20px;border-radius:12px;background:linear-gradient(180deg,#021428,#021829);border:1px solid rgba(96,208,255,0.06);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+.auth-box h2{margin:0 0 8px 0}
+.pin{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)}
+.auth-btn{margin-top:12px}
+
+/* responsive */
+@media(max-width:1100px){ .container{height:88vh;grid-template-columns:1fr;max-width:980px} .left{order:2;height:46vh;overflow:auto} .right{order:1} .header{display:none} }
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
+<div class="bg-grid" aria-hidden="true"></div>
+
+<div class="container" id="app">
+  <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding:6px 8px 0">
     <div class="logo">FIP</div>
-    <div class="hgroup">
-      <h1>Fnam Image Panel — Editor</h1>
-      <p>10-screen JSON editor · live preview · export & deploy</p>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="panel left">
+    <div style="flex:1">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="small-muted">Edit screens below. Paste a direct image URL (png/jpg). Toggle enabled to show.</div>
-        <div style="display:flex;gap:8px">
+        <div>
+          <div style="font-weight:700">Fnam Image Panel — Editor</div>
+          <div class="small-muted">10-screen live editor · preview · deploy hook</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div id="statusBadge" style="font-weight:600;color:var(--muted)">Idle</div>
           <button id="btnCopy" class="btn small">Copy JSON</button>
-          <button id="btnDownload" class="btn small secondary">Download JSON</button>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="screen-list" id="screenList"></div>
-
-      <div class="hr"></div>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <input id="netlifyHook" placeholder="Netlify deploy hook (optional)" class="small" style="min-width:260px" />
-        <button id="btnDeploy" class="btn small">Trigger Netlify Deploy</button>
-        <div id="deployStatus" class="small-muted">Deploy status idle</div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div>
-        <div class="small-muted">Raw JSON</div>
-        <textarea id="jsonOut" readonly></textarea>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div class="notice">Preview</div>
-          <div class="small-muted">Click any screen to preview or change URL. Previews update instantly.</div>
-        </div>
-        <div>
-          <button id="btnPretty" class="btn small secondary">Pretty JSON</button>
-          <button id="btnReset" class="btn small">Reset Defaults</button>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
-        <div class="preview" id="previewArea"><div class="small-muted">No preview selected</div></div>
-        <div>
-          <div class="meta"><div class="small-muted">Selected</div><div id="selectedName" class="small-muted">none</div></div>
-          <div style="margin-top:12px">
-            <div class="small-muted">Image URL</div>
-            <input id="selectedUrl" type="text" class="small" style="width:100%;margin-top:8px" />
-          </div>
-          <div style="margin-top:10px;display:flex;gap:8px">
-            <label class="checkbox"><input id="selectedEnabled" type="checkbox" /> Enabled</label>
-            <button id="btnApply" class="btn small">Apply</button>
-            <button id="btnClear" class="btn small secondary">Clear</button>
-          </div>
-          <div style="margin-top:12px"><div id="previewMsg" class="small-muted"></div></div>
-        </div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div class="small-muted">Quick actions</div>
-        <div style="display:flex;gap:8px">
-          <button id="btnEnableAll" class="btn small">Enable All</button>
-          <button id="btnDisableAll" class="btn small secondary">Disable All</button>
+          <button id="btnDownload" class="btn small secondary">Download</button>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="left" id="leftCol">
+    <div class="controls-top">
+      <div class="small-muted">Edit screens below. Paste direct PNG/JPG URLs. Toggle enabled to display.</div>
+      <div class="actions">
+        <button id="btnPretty" class="btn small secondary">Pretty JSON</button>
+        <button id="btnReset" class="btn small">Reset</button>
+      </div>
+    </div>
+
+    <div class="screen-list" id="screenList"></div>
+
+    <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:6px">
+      <button id="btnEnableAll" class="btn small">Enable All</button>
+      <button id="btnDisableAll" class="btn small secondary">Disable All</button>
+    </div>
+
+    <div style="margin-top:8px">
+      <div class="small-muted">Raw JSON</div>
+      <textarea id="jsonOut" readonly></textarea>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="preview" id="previewArea"><div class="small-muted">Select a screen to preview</div></div>
+
+    <div class="side-panel">
+      <div class="meta-row"><div class="small-muted">Selected</div><div id="selectedName" class="small-muted">none</div></div>
+
+      <div class="field">
+        <div class="small-muted">Image URL</div>
+        <input id="selectedUrl" class="input" type="text" placeholder="https://i.example.com/myimage.png" />
+      </div>
+
+      <div class="row">
+        <label class="checkbox"><input id="selectedEnabled" type="checkbox" /> Enabled</label>
+        <button id="btnApply" class="btn small">Apply</button>
+        <button id="btnClear" class="btn small secondary">Clear</button>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <input id="netlifyHook" class="input" placeholder="Netlify deploy hook (optional)" />
+        <button id="btnDeploy" class="btn small">Trigger Deploy</button>
+      </div>
+
+      <div id="previewMsg" class="small-muted">Preview status</div>
+    </div>
+
+  </div>
+
+  <div style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding-top:8px">
+    <div class="small-muted">Local editor · edits commit to JSON download or trigger your deploy hook</div>
+    <div class="small-muted">Theme: blue · Grid animated · Locked by code</div>
+  </div>
+</div>
+
+<div class="auth-backdrop" id="auth">
+  <div class="auth-box">
+    <h2>Enter access code</h2>
+    <div class="small-muted" style="margin-bottom:10px">Type the code to unlock the editor.</div>
+    <input id="accessCode" class="pin" placeholder="Enter code" />
+    <button id="unlockBtn" class="btn auth-btn">Unlock</button>
+    <div id="authMsg" style="margin-top:8px;color:var(--muted)"></div>
+  </div>
 </div>
 
 <script>
-const DEFAULT = {
+const REQUIRED_CODE = "Noah2006!";
+let model = {
   screen1:{enabled:true,url:"https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"},
   screen2:{enabled:false,url:""},
   screen3:{enabled:false,url:""},
@@ -156,43 +203,42 @@ const DEFAULT = {
   screen9:{enabled:false,url:""},
   screen10:{enabled:false,url:""}
 };
-let model=JSON.parse(JSON.stringify(DEFAULT));
-let selectedKey=null;
-const screenList=document.getElementById('screenList');
-const jsonOut=document.getElementById('jsonOut');
-const previewArea=document.getElementById('previewArea');
-const selectedName=document.getElementById('selectedName');
-const selectedUrl=document.getElementById('selectedUrl');
-const selectedEnabled=document.getElementById('selectedEnabled');
-const btnApply=document.getElementById('btnApply');
-const btnClear=document.getElementById('btnClear');
-const btnCopy=document.getElementById('btnCopy');
-const btnDownload=document.getElementById('btnDownload');
-const btnPretty=document.getElementById('btnPretty');
-const btnReset=document.getElementById('btnReset');
-const btnEnableAll=document.getElementById('btnEnableAll');
-const btnDisableAll=document.getElementById('btnDisableAll');
-const btnDeploy=document.getElementById('btnDeploy');
-const netlifyHook=document.getElementById('netlifyHook');
-const deployStatus=document.getElementById('deployStatus');
-const previewMsg=document.getElementById('previewMsg');
+
+const screenList = document.getElementById('screenList');
+const jsonOut = document.getElementById('jsonOut');
+const previewArea = document.getElementById('previewArea');
+const selectedName = document.getElementById('selectedName');
+const selectedUrl = document.getElementById('selectedUrl');
+const selectedEnabled = document.getElementById('selectedEnabled');
+const btnApply = document.getElementById('btnApply');
+const btnClear = document.getElementById('btnClear');
+const btnCopy = document.getElementById('btnCopy');
+const btnDownload = document.getElementById('btnDownload');
+const btnPretty = document.getElementById('btnPretty');
+const btnReset = document.getElementById('btnReset');
+const btnEnableAll = document.getElementById('btnEnableAll');
+const btnDisableAll = document.getElementById('btnDisableAll');
+const btnDeploy = document.getElementById('btnDeploy');
+const netlifyHook = document.getElementById('netlifyHook');
+const previewMsg = document.getElementById('previewMsg');
+const statusBadge = document.getElementById('statusBadge');
+
+let selectedKey = null;
 
 function renderList(){
-  screenList.innerHTML='';
+  screenList.innerHTML = '';
   Object.keys(model).forEach(k=>{
-    const meta=model[k];
-    const card=document.createElement('div');
-    card.className='screen-card';
-    const left=document.createElement('div');
-    left.innerHTML=`<div style="font-weight:600">${k}</div><div class="small-muted" style="margin-top:6px">${meta.url?meta.url:'(no url)'}</div>`;
-    const right=document.createElement('div');
-    right.style.display='flex';
-    right.style.flexDirection='column';
-    right.style.gap='6px';
-    const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=meta.enabled;
-    chk.addEventListener('change',e=>{ model[k].enabled=e.target.checked; updateJson(); });
-    const btn=document.createElement('button'); btn.className='small btn'; btn.textContent='Edit';
-    btn.addEventListener('click',()=>selectKey(k));
+    const meta = model[k];
+    const card = document.createElement('div');
+    card.className = 'screen-card';
+    const left = document.createElement('div');
+    left.innerHTML = `<div class="meta">${k}</div><div class="url">${meta.url?meta.url:'(no url)'}</div>`;
+    const right = document.createElement('div');
+    right.style.display='flex'; right.style.flexDirection='column'; right.style.alignItems='flex-end'; right.style.gap='8px';
+    const chk = document.createElement('input'); chk.type='checkbox'; chk.checked = !!meta.enabled;
+    chk.addEventListener('change', e => { model[k].enabled = e.target.checked; updateJson(); });
+    const btn = document.createElement('button'); btn.className='btn small'; btn.textContent='Edit';
+    btn.addEventListener('click', ()=> selectKey(k));
     right.appendChild(chk); right.appendChild(btn);
     card.appendChild(left); card.appendChild(right);
     screenList.appendChild(card);
@@ -201,67 +247,122 @@ function renderList(){
 }
 
 function selectKey(k){
-  selectedKey=k;
-  selectedName.textContent=k;
-  selectedUrl.value=model[k].url;
-  selectedEnabled.checked=!!model[k].enabled;
+  selectedKey = k;
+  selectedName.textContent = k;
+  selectedUrl.value = model[k].url;
+  selectedEnabled.checked = !!model[k].enabled;
   renderPreview(model[k].url);
 }
 
 function renderPreview(url){
-  previewArea.innerHTML='';
-  if(!url){ previewArea.innerHTML='<div class="small-muted">No image</div>'; previewMsg.textContent='No URL'; return; }
-  const img=new Image();
-  img.onload=()=>{ previewArea.innerHTML=''; previewArea.appendChild(img); previewMsg.textContent='Loaded'; };
-  img.onerror=()=>{ previewArea.innerHTML='<div class="error">Failed to load preview</div>'; previewMsg.textContent='Load error'; };
-  img.src=url;
-  img.style.maxWidth='100%';
-  img.style.maxHeight='100%';
+  previewArea.innerHTML = '';
+  if(!url){ previewArea.innerHTML = '<div class="small-muted">No preview</div>'; previewMsg.textContent='No URL'; return; }
+  const img = new Image();
+  img.onload = ()=> { previewArea.innerHTML=''; previewArea.appendChild(img); previewMsg.textContent='Loaded'; };
+  img.onerror = ()=> { previewArea.innerHTML='<div style="color:var(--danger);font-weight:700">Failed to load preview</div>'; previewMsg.textContent='Load error'; };
+  img.src = url;
+  img.style.maxWidth = '100%';
+  img.style.maxHeight = '100%';
   previewMsg.textContent='Loading...';
 }
 
-btnApply.addEventListener('click',()=>{
+btnApply.addEventListener('click', ()=>{
   if(!selectedKey) return;
   model[selectedKey].url = selectedUrl.value.trim();
   model[selectedKey].enabled = selectedEnabled.checked;
   renderList();
   selectKey(selectedKey);
 });
-btnClear.addEventListener('click',()=>{
+
+btnClear.addEventListener('click', ()=>{
   if(!selectedKey) return;
-  model[selectedKey].url=''; model[selectedKey].enabled=false;
+  model[selectedKey].url = ''; model[selectedKey].enabled = false;
   renderList(); selectKey(selectedKey);
 });
-btnCopy.addEventListener('click',()=>{
-  navigator.clipboard.writeText(JSON.stringify(model,null,2)).then(()=>{ btnCopy.textContent='Copied'; setTimeout(()=>btnCopy.textContent='Copy JSON',800);});
-});
-btnDownload.addEventListener('click',()=>{
-  const blob=new Blob([JSON.stringify(model,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='screens.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-});
-btnPretty.addEventListener('click',()=>{ jsonOut.value=JSON.stringify(model,null,2); });
-btnReset.addEventListener('click',()=>{ model=JSON.parse(JSON.stringify(DEFAULT)); renderList(); });
-btnEnableAll.addEventListener('click',()=>{ Object.keys(model).forEach(k=>model[k].enabled=true); renderList(); });
-btnDisableAll.addEventListener('click',()=>{ Object.keys(model).forEach(k=>model[k].enabled=false); renderList(); });
-btnDeploy.addEventListener('click',()=>triggerDeploy());
 
-function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
+btnCopy.addEventListener('click', ()=>{
+  navigator.clipboard.writeText(JSON.stringify(model,null,2)).then(()=>{
+    statusBadge.textContent = 'JSON copied';
+    setTimeout(()=>statusBadge.textContent='Idle',1200);
+  });
+});
+
+btnDownload.addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(model,null,2)],{type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'screens.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  statusBadge.textContent = 'Downloaded';
+  setTimeout(()=>statusBadge.textContent='Idle',1200);
+});
+
+btnPretty.addEventListener('click', ()=> { jsonOut.value = JSON.stringify(model,null,2); statusBadge.textContent='Pretty JSON'; setTimeout(()=>statusBadge.textContent='Idle',800); });
+btnReset.addEventListener('click', ()=> { model = JSON.parse(JSON.stringify({
+  screen1:{enabled:true,url:"https://i.ibb.co/rGPvcgd1/Catacombs-Achievement.png"},
+  screen2:{enabled:false,url:""},
+  screen3:{enabled:false,url:""},
+  screen4:{enabled:false,url:""},
+  screen5:{enabled:false,url:""},
+  screen6:{enabled:false,url:""},
+  screen7:{enabled:false,url:""},
+  screen8:{enabled:false,url:""},
+  screen9:{enabled:false,url:""},
+  screen10:{enabled:false,url:""}
+})); renderList(); statusBadge.textContent='Reset'; setTimeout(()=>statusBadge.textContent='Idle',900); });
+
+btnEnableAll.addEventListener('click', ()=> { Object.keys(model).forEach(k=>model[k].enabled=true); renderList(); statusBadge.textContent='All enabled'; setTimeout(()=>statusBadge.textContent='Idle',900); });
+btnDisableAll.addEventListener('click', ()=> { Object.keys(model).forEach(k=>model[k].enabled=false); renderList(); statusBadge.textContent='All disabled'; setTimeout(()=>statusBadge.textContent='Idle',900); });
+
+btnDeploy.addEventListener('click', triggerDeploy);
+
+function updateJson(){ jsonOut.value = JSON.stringify(model,null,2); }
 
 async function triggerDeploy(){
-  const hook=netlifyHook.value.trim();
-  if(!hook){ deployStatus.textContent='No hook URL'; return; }
-  deployStatus.textContent='Triggering...';
+  const hook = netlifyHook.value.trim();
+  if(!hook){ statusBadge.textContent='No hook set'; setTimeout(()=>statusBadge.textContent='Idle',1000); return; }
+  statusBadge.textContent='Triggering deploy...';
   try{
-    const res=await fetch(hook,{method:'POST'});
-    if(res.ok) deployStatus.textContent='Deploy triggered';
-    else deployStatus.textContent='Deploy failed: '+res.status;
-  }catch(err){ deployStatus.textContent='Deploy error'; }
-  setTimeout(()=>deployStatus.textContent='idle',2500);
+    const res = await fetch(hook, {method:'POST'});
+    if(res.ok) statusBadge.textContent='Deploy triggered';
+    else statusBadge.textContent = 'Deploy failed';
+  }catch(e){ statusBadge.textContent = 'Deploy error'; }
+  setTimeout(()=>statusBadge.textContent='Idle',2200);
 }
 
 renderList();
 updateJson();
+
+/* auth logic */
+const authEl = document.getElementById('auth');
+const unlockBtn = document.getElementById('unlockBtn');
+const accessCode = document.getElementById('accessCode');
+const authMsg = document.getElementById('authMsg');
+
+unlockBtn.addEventListener('click', attemptUnlock);
+accessCode.addEventListener('keydown', e => { if(e.key==='Enter') attemptUnlock(); });
+
+function attemptUnlock(){
+  const v = accessCode.value || '';
+  if(v === REQUIRED_CODE){
+    authEl.style.transition = 'opacity 250ms ease'; authEl.style.opacity = '0';
+    setTimeout(()=> authEl.remove(), 260);
+    statusBadge.textContent = 'Unlocked';
+  } else {
+    authMsg.textContent = 'Invalid code';
+    accessCode.classList.add('shake');
+    setTimeout(()=>{ accessCode.classList.remove('shake'); },400);
+  }
+}
+
+/* small shake style injection */
+const s = document.createElement('style');
+s.innerHTML = `
+.shake{animation:shake 0.35s}
+@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}
+`;
+document.head.appendChild(s);
+
+/* prevent scrolling on body while editor fixed-size */
+document.body.addEventListener('touchmove', e => e.preventDefault(), {passive:false});
 </script>
 </body>
 </html>
