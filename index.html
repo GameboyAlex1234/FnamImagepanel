@@ -228,7 +228,7 @@ btnDeploy.addEventListener('click', async () => {
 
 unlockBtn.addEventListener('click',attemptUnlock);
 accessCode.addEventListener('keydown',e=>{ if(e.key==='Enter') attemptUnlock(); });
-async function attemptUnlock(){
+async function attemptUnlock() {
   const v = accessCode.value || '';
   try {
     const res = await fetch('/.netlify/functions/checkCode', {
@@ -236,17 +236,17 @@ async function attemptUnlock(){
       body: JSON.stringify({ code: v })
     });
     const data = await res.json();
-    if(data.success){
-      authEl.style.transition='opacity 250ms ease';
-      authEl.style.opacity='0';
-      setTimeout(()=> authEl.remove(),260);
+    if (data.success) {
+      authEl.style.transition = 'opacity 250ms ease';
+      authEl.style.opacity = '0';
+      setTimeout(() => authEl.remove(), 260);
     } else {
-      authMsg.textContent='Invalid code';
+      authMsg.textContent = 'Invalid code';
       accessCode.classList.add('shake');
-      setTimeout(()=>{ accessCode.classList.remove('shake'); },400);
+      setTimeout(() => { accessCode.classList.remove('shake'); }, 400);
     }
-  } catch(err){
-    authMsg.textContent='Error checking code';
+  } catch (err) {
+    authMsg.textContent = 'Error checking code';
   }
 }
   
