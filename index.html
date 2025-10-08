@@ -202,14 +202,29 @@ btnApply.addEventListener('click',()=>{ if(!selectedKey) return; model[selectedK
 btnClear.addEventListener('click',()=>{ if(!selectedKey) return; model[selectedKey].url=''; model[selectedKey].enabled=false; renderList(); selectKey(selectedKey); });
 function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
 
-btnDeploy.addEventListener('click',async()=>{
-  try{
-    btnDeploy.textContent="Deploying...";
-    const res=await fetch(NETLIFY_HOOK,{method:'POST'});
-    if(res.ok) previewMsg.textContent="Deploy triggered!";
-    else previewMsg.textContent="Deploy failed!";
-  }catch(e){ previewMsg.textContent="Deploy error!"; console.error(e); }
-  finally{ btnDeploy.textContent="Trigger Deploy"; }
+btnDeploy.addEventListener('click', async () => {
+  btnDeploy.textContent = "Saving...";
+  previewMsg.textContent = "Saving JSON...";
+
+  try {
+    // Save JSON to GitHub
+    const saveRes = await fetch('/.netlify/functions/saveScreens', {
+      method: 'POST',
+      body: JSON.stringify({ model })
+    });
+    if (!saveRes.ok) throw new Error('Failed to save JSON');
+
+    previewMsg.textContent = "JSON saved! Triggering deploy...";
+
+    // Trigger Netlify deploy
+    const deployRes = await fetch(NETLIFY_HOOK, { method: 'POST' });
+    previewMsg.textContent = deployRes.ok ? "Deploy triggered!" : "Deploy failed!";
+  } catch (e) {
+    console.error(e);
+    previewMsg.textContent = "Error: " + e.message;
+  } finally {
+    btnDeploy.textContent = "Trigger Deploy";
+  }
 });
 
 unlockBtn.addEventListener('click',attemptUnlock);
