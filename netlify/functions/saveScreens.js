@@ -9,21 +9,28 @@ export async function handler(event) {
     const { model } = JSON.parse(event.body);
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-    const REPO_OWNER = 'GameboyAlex1234'; // replace if needed
-    const REPO_NAME = 'FnamImagepanel';   // replace if needed
-    const FILE_PATH = 'screens.json';
-    const BRANCH = 'main';
+    const REPO_OWNER = 'GameboyAlex1234'; // your GitHub username
+    const REPO_NAME = 'FnamImagepanel';   // your repo name
+    const FILE_PATH = 'screens.json';     // adjust if file is in a folder
+    const BRANCH = 'main';                // your branch
 
-    // Get current file SHA
+    // 1️⃣ Get current file SHA
     const getRes = await fetch(
       `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?ref=${BRANCH}`,
       { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
     );
-    if (!getRes.ok) throw new Error('Failed to fetch current JSON');
+
     const fileData = await getRes.json();
+    console.log('GET response status:', getRes.status);
+    console.log('GET response body:', fileData);
+
+    if (!getRes.ok) {
+      throw new Error(`GitHub GET failed: ${fileData.message || 'Unknown error'}`);
+    }
+
     const sha = fileData.sha;
 
-    // Update file
+    // 2️⃣ Update the file
     const putRes = await fetch(
       `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
       {
@@ -41,10 +48,17 @@ export async function handler(event) {
       }
     );
 
-    if (!putRes.ok) throw new Error('Failed to update GitHub file');
+    const putData = await putRes.json();
+    console.log('PUT response status:', putRes.status);
+    console.log('PUT response body:', putData);
 
-    return { statusCode: 200, body: JSON.stringify({ message: 'JSON updated on GitHub' }) };
+    if (!putRes.ok) {
+      throw new Error(`GitHub PUT failed: ${putData.message || 'Unknown error'}`);
+    }
+
+    return { statusCode: 200, body: JSON.stringify({ message: 'JSON updated on GitHub', putData }) };
   } catch (err) {
+    console.error('Error in saveScreens:', err);
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
   }
 }
