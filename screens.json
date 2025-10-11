@@ -1,11 +1,11 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://i.ibb.co/ZzT6XhxB/Nyt-Projekt-97.png"
-  },
-  "screen2": {
     "enabled": false,
     "url": ""
+  },
+  "screen2": {
+    "enabled": true,
+    "url": "https://i.ibb.co/ZzT6XhxB/Nyt-Projekt-97.png"
   },
   "screen3": {
     "enabled": false,
