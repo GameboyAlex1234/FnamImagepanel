@@ -1,42 +1,42 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen2": {
     "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "url": "https://i.postimg.cc/MZ4cDWNd/Fnam2entrance-1.png"
   },
   "screen3": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen4": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen5": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen6": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen7": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen8": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen9": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   },
   "screen10": {
-    "enabled": true,
-    "url": "https://i.postimg.cc/qM0PWKPq/Nyt-Projekt-92.png"
+    "enabled": false,
+    "url": ""
   }
 }
