@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://i.ibb.co/7N04BKft/Nyt-Projekt-98.png"
+    "enabled": false,
+    "url": ""
   },
   "screen2": {
     "enabled": false,
@@ -25,7 +25,7 @@
   },
   "screen7": {
     "enabled": true,
-    "url": "https://i.ibb.co/7N04BKft/Nyt-Projekt-98.png"
+    "url": "https://i.ytimg.com/vi/ghLwViARLSM/hqdefault.jpg"
   },
   "screen8": {
     "enabled": false,
