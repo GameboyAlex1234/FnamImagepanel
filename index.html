@@ -6,79 +6,7 @@
 <title>Fnam Admin Screen Editor</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg0: #020617;
-  --bg1: #04102a;
-  --panel: #07162a;
-  --muted: #9bb0c8;
-  --accent: #60d0ff;
-  --accent2: #6ee7b7;
-  --glass: rgba(255,255,255,0.03);
-  --radius: 14px;
-  --pad: 14px;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-}
-* { box-sizing: border-box }
-html, body { height: 100%; margin: 0; background: var(--bg0); color: #e8f6ff; overflow: auto }
-body { display: flex; align-items: center; justify-content: center; padding: 26px }
-.bg-grid {
-  position: fixed; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.3;
-  background-image: linear-gradient(0deg, rgba(96,208,255,0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(96,208,255,0.03) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px;
-  animation: moveGrid 40s linear infinite, pulse 6s ease-in-out infinite;
-  z-index: 0;
-}
-@keyframes moveGrid { 0%{background-position:0 0,0 0} 100%{background-position:800px 800px,-800px -800px} }
-@keyframes pulse { 0%{opacity:0.25} 50%{opacity:0.32} 100%{opacity:0.25} }
-.container {
-  position: relative; z-index: 2; width: 1200px; max-width: calc(100vw - 40px); height: 760px;
-  border-radius: 18px; padding: 18px 18px 0 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
-  box-shadow: 0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-  display: grid; grid-template-columns: 1fr 480px; grid-template-rows: auto 1fr; gap: 20px; overflow: visible;
-  border: 1px solid rgba(96,208,255,0.03);
-}
-.header { display: flex; gap: 12px; align-items: center; padding: 8px 6px 12px; grid-column: 1 / span 2; }
-.logo { width: 64px; height: 64px; border-radius: 12px; background: #07162a; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(3,12,30,0.6) }
-.logo img { max-width: 100%; max-height: 100%; }
-.hgroup h1 { margin: 0; font-size: 18px }
-.hgroup p { margin: 0; color: var(--muted); font-size: 13px }
-.left { padding: 6px 6px 12px; display: flex; flex-direction: column; gap: 10px; overflow: auto }
-.controls-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px }
-.controls-top .actions { display: flex; gap: 8px }
-.btn { background: linear-gradient(90deg,#053b5a,#02324a); color: var(--accent); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(96,208,255,0.08); cursor: pointer; backdrop-filter: blur(4px); font-weight: 600 }
-.btn.secondary { background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.03) }
-.small { padding: 6px 10px; font-size: 13px; border-radius: 9px }
-.screen-list { display: grid; gap: 10px; padding: 6px }
-.screen-card {
-  display: grid; grid-template-columns: 1fr 84px; gap: 10px; padding: 10px; border-radius: 12px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
-  border: 1px solid rgba(255,255,255,0.02); align-items: center;
-}
-.screen-card .meta { font-weight: 600 }
-.screen-card .url { color: var(--muted); font-size: 12px; word-break: break-all }
-.right { display: flex; flex-direction: column; gap: 10px }
-.preview { flex: 1; border-radius: 12px; background: linear-gradient(180deg,#021026,#071a2b); display: flex; align-items: center; justify-content: center; overflow: auto; border: 1px solid rgba(255,255,255,0.02) }
-.preview img { max-width: 100%; max-height: 100%; display: block }
-.side-panel { display: flex; flex-direction: column; gap: 10px; padding: 10px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); border: 1px solid rgba(255,255,255,0.02) }
-.field { display: flex; flex-direction: column; gap: 6px }
-.input { background: transparent; border: 1px solid rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; color: inherit }
-.row { display: flex; gap: 8px; align-items: center }
-.checkbox { display: flex; gap: 8px; align-items: center; color: var(--muted) }
-.meta-row { display: flex; justify-content: space-between; gap: 8px; align-items: center; color: var(--muted) }
-textarea { width: 100%; height: 170px; background: #031020; border: 1px solid rgba(255,255,255,0.02); padding: 10px; border-radius: 10px; color: #cfeefc; resize: none }
-.auth-backdrop { position: fixed; inset: 0; background: rgba(2,6,13,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10 }
-.auth-box { width: 460px; max-width: 92%; padding: 20px; border-radius: 12px; background: linear-gradient(180deg,#021428,#021829); border: 1px solid rgba(96,208,255,0.06); box-shadow: 0 20px 60px rgba(0,0,0,0.6) }
-.auth-box h2 { margin: 0 0 8px 0 }
-.pin { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); background: transparent; color: var(--muted) }
-.auth-btn { margin-top: 12px }
-@media(max-width:1100px) {
-  .container { height: 88vh; grid-template-columns: 1fr; max-width: 980px }
-  .left { order: 2; height: 46vh; overflow: auto }
-  .right { order: 1 }
-  .header { display: flex; gap: 12px }
-}
+:root{--bg0:#020617;--bg1:#04102a;--panel:#07162a;--muted:#9bb0c8;--accent:#60d0ff;--accent2:#6ee7b7;--glass:rgba(255,255,255,0.03);--radius:14px;--pad:14px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}*{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg0);color:#e8f6ff;overflow:auto}body{display:flex;align-items:center;justify-content:center;padding:26px}.bg-grid{position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.3;background-image:linear-gradient(0deg,rgba(96,208,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(96,208,255,0.03) 1px,transparent 1px);background-size:40px 40px,40px 40px;animation:moveGrid 40s linear infinite,pulse 6s ease-in-out infinite;z-index:0}@keyframes moveGrid{0%{background-position:0 0,0 0}100%{background-position:800px 800px,-800px -800px}}@keyframes pulse{0%{opacity:0.25}50%{opacity:0.32}100%{opacity:0.25}}.container{position:relative;z-index:2;width:1200px;max-width:calc(100vw - 40px);height:760px;border-radius:18px;padding:18px 18px 0 18px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.008));box-shadow:0 12px 40px rgba(3,12,30,0.6),inset 0 1px 0 rgba(255,255,255,0.02);display:grid;grid-template-columns:1fr 480px;grid-template-rows:auto 1fr;gap:20px;overflow:visible;border:1px solid rgba(96,208,255,0.03)}.header{display:flex;gap:12px;align-items:center;padding:8px 6px 12px;grid-column:1/span 2}.logo{width:64px;height:64px;border-radius:12px;background:#07162a;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(3,12,30,0.6)}.logo img{max-width:100%;max-height:100%}.hgroup h1{margin:0;font-size:18px}.hgroup p{margin:0;color:var(--muted);font-size:13px}.left{padding:6px 6px 12px;display:flex;flex-direction:column;gap:10px;overflow:auto}.controls-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px}.controls-top .actions{display:flex;gap:8px}.btn{background:linear-gradient(90deg,#053b5a,#02324a);color:var(--accent);padding:8px 12px;border-radius:10px;border:1px solid rgba(96,208,255,0.08);cursor:pointer;backdrop-filter:blur(4px);font-weight:600}.btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}.small{padding:6px 10px;font-size:13px;border-radius:9px}.screen-list{display:grid;gap:10px;padding:6px}.screen-card{display:grid;grid-template-columns:1fr 84px;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);align-items:center}.screen-card .meta{font-weight:600}.screen-card .url{color:var(--muted);font-size:12px;word-break:break-all}.right{display:flex;flex-direction:column;gap:10px}.preview{flex:1;border-radius:12px;background:linear-gradient(180deg,#021026,#071a2b);display:flex;align-items:center;justify-content:center;overflow:auto;border:1px solid rgba(255,255,255,0.02)}.preview img{max-width:100%;max-height:100%;display:block}.side-panel{display:flex;flex-direction:column;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02)}.field{display:flex;flex-direction:column;gap:6px}.input{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;color:inherit}.row{display:flex;gap:8px;align-items:center}.checkbox{display:flex;gap:8px;align-items:center;color:var(--muted)}.meta-row{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--muted)}textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,255,255,0.02);padding:10px;border-radius:10px;color:#cfeefc;resize:none}.auth-backdrop{position:fixed;inset:0;background:rgba(2,6,13,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:10}.auth-box{width:460px;max-width:92%;padding:20px;border-radius:12px;background:linear-gradient(180deg,#021428,#021829);border:1px solid rgba(96,208,255,0.06);box-shadow:0 20px 60px rgba(0,0,0,0.6)}.auth-box h2{margin:0 0 8px 0}.pin{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)}.auth-btn{margin-top:12px}@media(max-width:1100px){.container{height:88vh;grid-template-columns:1fr;max-width:980px}.left{order:2;height:46vh;overflow:auto}.right{order:1}.header{display:flex;gap:12px}}
 </style>
 </head>
 <body>
@@ -93,7 +21,7 @@ textarea { width: 100%; height: 170px; background: #031020; border: 1px solid rg
   </div>
   <div class="left" id="leftCol">
     <div class="controls-top">
-      <div class="small-muted">Edit screens below. Paste direct PNG/JPG URLs. Toggle enabled to display.</div>
+      <div class="small-muted">Edit screens below. Upload or paste URLs.</div>
       <div class="actions">
         <button id="btnPretty" class="btn small secondary">Pretty JSON</button>
         <button id="btnReset" class="btn small">Reset</button>
@@ -116,6 +44,10 @@ textarea { width: 100%; height: 170px; background: #031020; border: 1px solid rg
       <div class="field">
         <div class="small-muted">Image URL</div>
         <input id="selectedUrl" class="input" type="text" placeholder="https://i.example.com/myimage.png" />
+      </div>
+      <div class="field">
+        <div class="small-muted">Upload Image</div>
+        <input id="imageUpload" type="file" accept="image/*" />
       </div>
       <div class="row">
         <label class="checkbox"><input id="selectedEnabled" type="checkbox" /> Enabled</label>
@@ -155,13 +87,13 @@ const authEl=document.getElementById('auth');
 const unlockBtn=document.getElementById('unlockBtn');
 const accessCode=document.getElementById('accessCode');
 const authMsg=document.getElementById('authMsg');
+const imageUpload=document.getElementById('imageUpload');
 
 async function loadJSON(){
   try{
     const res=await fetch('https://FnamImagePanel.netlify.app/screens.json');
-    if(res.ok){ model=await res.json(); renderList(); updateJson(); } 
-    else{ console.warn('Failed to load JSON'); }
-  }catch(e){ console.error('Error fetching JSON', e); }
+    if(res.ok){ model=await res.json(); renderList(); updateJson(); }
+  }catch(e){console.error(e);}
 }
 
 function renderList(){
@@ -169,16 +101,13 @@ function renderList(){
   Object.keys(model).forEach(k=>{
     const meta=model[k];
     const card=document.createElement('div'); card.className='screen-card';
-    const left=document.createElement('div');
-    left.innerHTML=`<div class="meta">${k}</div><div class="url">${meta.url?meta.url:'(no url)'}</div>`;
-    const right=document.createElement('div'); 
-    right.style.display='flex'; right.style.flexDirection='column'; right.style.alignItems='flex-end'; right.style.gap='8px';
+    const left=document.createElement('div'); left.innerHTML=`<div class="meta">${k}</div><div class="url">${meta.url?meta.url:'(no url)'}</div>`;
+    const right=document.createElement('div'); right.style.display='flex'; right.style.flexDirection='column'; right.style.alignItems='flex-end'; right.style.gap='8px';
     const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=!!meta.enabled;
     chk.addEventListener('change',e=>{ model[k].enabled=e.target.checked; updateJson(); });
     const btn=document.createElement('button'); btn.className='btn small'; btn.textContent='Edit';
     btn.addEventListener('click',()=>selectKey(k));
-    right.appendChild(chk); right.appendChild(btn);
-    card.appendChild(left); card.appendChild(right); screenList.appendChild(card);
+    right.appendChild(chk); right.appendChild(btn); card.appendChild(left); card.appendChild(right); screenList.appendChild(card);
   });
   updateJson();
 }
@@ -216,29 +145,39 @@ btnClear.addEventListener('click',()=>{
 function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
 
 btnDeploy.addEventListener('click', async () => {
-  btnDeploy.textContent = "Saving..."; previewMsg.textContent = "Saving JSON...";
-  try {
-    const saveRes = await fetch('/.netlify/functions/saveScreens', { method: 'POST', body: JSON.stringify({ model }) });
-    if (!saveRes.ok) throw new Error('Failed to save JSON');
-    previewMsg.textContent = "JSON saved! Triggering deploy...";
-    const deployRes = await fetch(NETLIFY_HOOK, { method: 'POST' });
-    previewMsg.textContent = deployRes.ok ? "Deploy triggered!" : "Deploy failed!";
-  } catch (e) { console.error(e); previewMsg.textContent = "Error: " + e.message; }
-  finally { btnDeploy.textContent = "Trigger Deploy"; }
+  btnDeploy.textContent="Saving..."; previewMsg.textContent="Saving JSON...";
+  try{
+    const saveRes=await fetch('/.netlify/functions/saveScreens',{method:'POST',body:JSON.stringify({model})});
+    if(!saveRes.ok) throw new Error('Failed to save JSON');
+    previewMsg.textContent="JSON saved! Triggering deploy...";
+    const deployRes=await fetch(NETLIFY_HOOK,{method:'POST'});
+    previewMsg.textContent=deployRes.ok?"Deploy triggered!":"Deploy failed!";
+  }catch(e){console.error(e);previewMsg.textContent="Error: "+e.message}
+  finally{btnDeploy.textContent="Trigger Deploy";}
 });
 
 unlockBtn.addEventListener('click',attemptUnlock);
-accessCode.addEventListener('keydown',e=>{ if(e.key==='Enter') attemptUnlock(); });
+accessCode.addEventListener('keydown',e=>{if(e.key==='Enter') attemptUnlock();});
 
 function attemptUnlock(){
   const v=accessCode.value||'';
-  if(v===REQUIRED_CODE){ authEl.style.transition='opacity 250ms ease'; authEl.style.opacity='0'; setTimeout(()=> authEl.remove(),260);}
-  else{ authMsg.textContent='Invalid code'; accessCode.classList.add('shake'); setTimeout(()=>{ accessCode.classList.remove('shake'); },400);}
+  if(v===REQUIRED_CODE){ authEl.style.transition='opacity 250ms ease'; authEl.style.opacity='0'; setTimeout(()=>authEl.remove(),260);}
+  else{ authMsg.textContent='Invalid code'; accessCode.classList.add('shake'); setTimeout(()=>{accessCode.classList.remove('shake');},400);}
 }
 
-const s=document.createElement('style');
-s.innerHTML=`.shake{animation:shake 0.35s}@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}`;
-document.head.appendChild(s);
+imageUpload.addEventListener('change', async e=>{
+  const file=e.target.files[0]; if(!file) return;
+  previewMsg.textContent="Uploading...";
+  const formData=new FormData(); formData.append('file',file);
+  try{
+    const res=await fetch('/upload',{method:'POST',body:formData});
+    const data=await res.json();
+    if(res.ok && data.url){ selectedUrl.value=data.url; renderPreview(data.url); previewMsg.textContent="Upload complete!"; }
+    else previewMsg.textContent="Upload failed!";
+  }catch(err){console.error(err);previewMsg.textContent="Error uploading file";}
+});
+
+const s=document.createElement('style'); s.innerHTML=`.shake{animation:shake 0.35s}@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}`; document.head.appendChild(s);
 loadJSON();
 </script>
 </body>
