@@ -1,11 +1,11 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/Dfb9hg6g/ALEX-CODE-FNAM.png"
   },
   "screen2": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/Dfb9hg6g/ALEX-CODE-FNAM.png"
   },
   "screen3": {
     "enabled": false,
@@ -24,8 +24,8 @@
     "url": ""
   },
   "screen7": {
-    "enabled": true,
-    "url": "https://i.ibb.co/1t9fJFw8/Untitled361-20250330184038.png"
+    "enabled": false,
+    "url": ""
   },
   "screen8": {
     "enabled": false,
