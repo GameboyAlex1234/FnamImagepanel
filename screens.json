@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://m.media-amazon.com/images/I/71Yl0wqM94L.jpg"
+    "enabled": false,
+    "url": ""
   },
   "screen2": {
     "enabled": false,
