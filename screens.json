@@ -1,15 +1,15 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/ZzT6XhxB/Nyt-Projekt-97.png"
   },
   "screen2": {
     "enabled": false,
     "url": ""
   },
   "screen3": {
-    "enabled": true,
-    "url": "https://i.ibb.co/ZzT6XhxB/Nyt-Projekt-97.png"
+    "enabled": false,
+    "url": ""
   },
   "screen4": {
     "enabled": false,
