@@ -24,8 +24,8 @@
     "url": ""
   },
   "screen7": {
-    "enabled": true,
-    "url": "https://i.ytimg.com/vi/ghLwViARLSM/sddefault.jpg?v=635d4320"
+    "enabled": false,
+    "url": ""
   },
   "screen8": {
     "enabled": false,
