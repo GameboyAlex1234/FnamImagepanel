@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/yBhYJmRq/Nyt-Projekt-2025-11-02-T154943-427.png"
   },
   "screen2": {
     "enabled": false,
@@ -20,8 +20,8 @@
     "url": ""
   },
   "screen6": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/NdFw1Zgf/Nyt-Projekt-2025-11-02-T140839-295.png"
   },
   "screen7": {
     "enabled": false,
