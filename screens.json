@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Gay_Pride_Flag.svg/330px-Gay_Pride_Flag.svg.png"
+    "enabled": false,
+    "url": ""
   },
   "screen2": {
     "enabled": false,
