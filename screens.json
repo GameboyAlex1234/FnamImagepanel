@@ -20,12 +20,12 @@
     "url": ""
   },
   "screen6": {
-    "enabled": false,
-    "url": ""
-  },
-  "screen7": {
     "enabled": true,
     "url": "https://i.ibb.co/TxNBxmbG/Nyt-Projekt-2025-11-02-T140839-295.png"
+  },
+  "screen7": {
+    "enabled": false,
+    "url": ""
   },
   "screen8": {
     "enabled": false,
