@@ -115,6 +115,8 @@ textarea { width: 100%; height: 170px; background: #031020; border: 1px solid rg
       <div class="field">
         <div class="small-muted">Image URL</div>
         <input id="selectedUrl" class="input" type="text" placeholder="https://i.example.com/myimage.png" />
+        <button id="btnUpload" class="btn small secondary" style="margin-top:6px">Upload Image</button>
+        <input type="file" id="uploadInput" accept="image/*" style="display:none" />
       </div>
       <div class="row">
         <label class="checkbox"><input id="selectedEnabled" type="checkbox" /> Enabled</label>
@@ -154,15 +156,33 @@ const authEl=document.getElementById('auth');
 const unlockBtn=document.getElementById('unlockBtn');
 const accessCode=document.getElementById('accessCode');
 const authMsg=document.getElementById('authMsg');
-
+const uploadBtn=document.getElementById('btnUpload');
+const uploadInput=document.getElementById('uploadInput');
+uploadBtn.addEventListener('click',()=>uploadInput.click());
+uploadInput.addEventListener('change',e=>{
+  const file=e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{ selectedUrl.value=reader.result; renderPreview(reader.result); };
+  reader.readAsDataURL(file);
+});
+window.addEventListener('paste',e=>{
+  const items=e.clipboardData.items;
+  for(let item of items){
+    if(item.type.startsWith('image/')){
+      const file=item.getAsFile();
+      const reader=new FileReader();
+      reader.onload=()=>{ selectedUrl.value=reader.result; renderPreview(reader.result); };
+      reader.readAsDataURL(file);
+    }
+  }
+});
 async function loadJSON(){
   try{
     const res=await fetch('https://FnamImagePanel.netlify.app/screens.json');
     if(res.ok){ model=await res.json(); renderList(); updateJson(); } 
-    else{ console.warn('Failed to load JSON'); }
-  }catch(e){ console.error('Error fetching JSON', e); }
+  }catch(e){}
 }
-
 function renderList(){
   screenList.innerHTML='';
   Object.keys(model).forEach(k=>{
@@ -181,7 +201,6 @@ function renderList(){
   });
   updateJson();
 }
-
 function selectKey(k){
   selectedKey=k;
   selectedName.textContent=k;
@@ -189,7 +208,6 @@ function selectKey(k){
   selectedEnabled.checked=!!model[k].enabled;
   renderPreview(model[k].url);
 }
-
 function renderPreview(url){
   previewArea.innerHTML='';
   if(!url){ previewArea.innerHTML='<div class="small-muted">No preview</div>'; previewMsg.textContent='No URL'; return; }
@@ -198,43 +216,36 @@ function renderPreview(url){
   img.onerror=()=>{ previewArea.innerHTML='<div style="color:#ff6b6b;font-weight:700">Failed to load preview</div>'; previewMsg.textContent='Load error'; };
   img.src=url; img.style.maxWidth='100%'; img.style.maxHeight='100%'; previewMsg.textContent='Loading...';
 }
-
 btnApply.addEventListener('click',()=>{
   if(!selectedKey) return;
   model[selectedKey].url=selectedUrl.value.trim();
   model[selectedKey].enabled=selectedEnabled.checked;
   renderList(); selectKey(selectedKey);
 });
-
 btnClear.addEventListener('click',()=>{
   if(!selectedKey) return;
   model[selectedKey].url=''; model[selectedKey].enabled=false;
   renderList(); selectKey(selectedKey);
 });
-
 function updateJson(){ jsonOut.value=JSON.stringify(model,null,2); }
-
-btnDeploy.addEventListener('click', async () => {
-  btnDeploy.textContent = "Saving..."; previewMsg.textContent = "Saving JSON...";
-  try {
-    const saveRes = await fetch('/.netlify/functions/saveScreens', { method: 'POST', body: JSON.stringify({ model }) });
-    if (!saveRes.ok) throw new Error('Failed to save JSON');
-    previewMsg.textContent = "JSON saved! Triggering deploy...";
-    const deployRes = await fetch(NETLIFY_HOOK, { method: 'POST' });
-    previewMsg.textContent = deployRes.ok ? "Deploy triggered!" : "Deploy failed!";
-  } catch (e) { console.error(e); previewMsg.textContent = "Error: " + e.message; }
-  finally { btnDeploy.textContent = "Trigger Deploy"; }
+btnDeploy.addEventListener('click',async()=>{
+  btnDeploy.textContent="Saving..."; previewMsg.textContent="Saving JSON...";
+  try{
+    const saveRes=await fetch('/.netlify/functions/saveScreens',{method:'POST',body:JSON.stringify({model})});
+    if(!saveRes.ok) throw new Error('Failed to save JSON');
+    previewMsg.textContent="JSON saved! Triggering deploy...";
+    const deployRes=await fetch(NETLIFY_HOOK,{method:'POST'});
+    previewMsg.textContent=deployRes.ok?"Deploy triggered!":"Deploy failed!";
+  }catch(e){previewMsg.textContent="Error: "+e.message;}
+  finally{btnDeploy.textContent="Trigger Deploy";}
 });
-
 unlockBtn.addEventListener('click',attemptUnlock);
-accessCode.addEventListener('keydown',e=>{ if(e.key==='Enter') attemptUnlock(); });
-
+accessCode.addEventListener('keydown',e=>{if(e.key==='Enter') attemptUnlock();});
 function attemptUnlock(){
   const v=accessCode.value||'';
-  if(v===REQUIRED_CODE){ authEl.style.transition='opacity 250ms ease'; authEl.style.opacity='0'; setTimeout(()=> authEl.remove(),260);}
-  else{ authMsg.textContent='Invalid code'; accessCode.classList.add('shake'); setTimeout(()=>{ accessCode.classList.remove('shake'); },400);}
+  if(v===REQUIRED_CODE){ authEl.style.transition='opacity 250ms ease'; authEl.style.opacity='0'; setTimeout(()=>authEl.remove(),260);}
+  else{authMsg.textContent='Invalid code'; accessCode.classList.add('shake'); setTimeout(()=>{accessCode.classList.remove('shake');},400);}
 }
-
 const s=document.createElement('style');
 s.innerHTML=`.shake{animation:shake 0.35s}@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}`;
 document.head.appendChild(s);
