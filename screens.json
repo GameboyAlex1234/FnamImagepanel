@@ -1,42 +1,42 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen2": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen3": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen4": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen5": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen6": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen7": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen8": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen9": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   },
   "screen10": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
   }
 }
