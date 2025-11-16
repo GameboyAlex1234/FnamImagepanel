@@ -32,11 +32,11 @@
     "url": ""
   },
   "screen9": {
-    "enabled": true,
-    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
+    "enabled": false,
+    "url": ""
   },
   "screen10": {
-    "enabled": true,
-    "url": "https://i.ibb.co/200XxpbY/Banana-Charm-Blast.png"
+    "enabled": false,
+    "url": ""
   }
 }
