@@ -1,50 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Fnam Admin Screen Editor</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root { --bg0:#020617; --bg1:#04102a; --panel:#07162a; --muted:#9bb0c8; --accent:#60d0ff; --accent2:#6ee7b7; --glass:rgba(255,255,255,0.03); --radius:14px; --pad:14px; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial }
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:var(--bg0);color:#e8f6ff;overflow:auto}
-body{display:flex;align-items:center;justify-content:center;padding:26px}
-.bg-grid{position:fixed;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:0.3;background-image:linear-gradient(0deg, rgba(96,208,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(96,208,255,0.03) 1px, transparent 1px);background-size:40px 40px,40px 40px;animation:moveGrid 40s linear infinite,pulse 6s ease-in-out infinite;z-index:0}
-@keyframes moveGrid{0%{background-position:0 0,0 0}100%{background-position:800px 800px,-800px -800px}}
-@keyframes pulse{0%{opacity:0.25}50%{opacity:0.32}100%{opacity:0.25}}
-.container{position:relative;z-index:2;width:1200px;max-width:calc(100vw - 40px);height:760px;border-radius:18px;padding:18px 18px 0 18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));box-shadow:0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);display:grid;grid-template-columns:1fr 480px;grid-template-rows:auto 1fr;gap:20px;overflow:visible;border:1px solid rgba(96,208,255,0.03)}
-.header{display:flex;gap:12px;align-items:center;padding:8px 6px 12px;grid-column:1 / span 2}
-.logo{width:64px;height:64px;border-radius:12px;background:#07162a;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(3,12,30,0.6)}
-.logo img{max-width:100%;max-height:100%}
-.hgroup h1{margin:0;font-size:18px}
-.hgroup p{margin:0;color:var(--muted);font-size:13px}
-.left{padding:6px 6px 12px;display:flex;flex-direction:column;gap:10px;overflow:auto}
-.controls-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px}
-.controls-top .actions{display:flex;gap:8px}
-.btn{background:linear-gradient(90deg,#053b5a,#02324a);color:var(--accent);padding:8px 12px;border-radius:10px;border:1px solid rgba(96,208,255,0.08);cursor:pointer;backdrop-filter:blur(4px);font-weight:600}
-.btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
-.small{padding:6px 10px;font-size:13px;border-radius:9px}
-.screen-list{display:grid;gap:10px;padding:6px}
-.screen-card{display:grid;grid-template-columns:1fr 84px;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);align-items:center}
-.screen-card .meta{font-weight:600}
-.screen-card .url{color:var(--muted);font-size:12px;word-break:break-all}
-.right{display:flex;flex-direction:column;gap:10px}
-.preview{flex:1;border-radius:12px;background:linear-gradient(180deg,#021026,#071a2b);display:flex;align-items:center;justify-content:center;overflow:auto;border:1px solid rgba(255,255,255,0.02)}
-.preview img{max-width:100%;max-height:100%;display:block}
-.side-panel{display:flex;flex-direction:column;gap:10px;padding:10px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02)}
-.field{display:flex;flex-direction:column;gap:6px}
-.input{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:8px;color:inherit}
-.row{display:flex;gap:8px;align-items:center}
-.checkbox{display:flex;gap:8px;align-items:center;color:var(--muted)}
-.meta-row{display:flex;justify-content:space-between;gap:8px;align-items:center;color:var(--muted)}
-textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,255,255,0.02);padding:10px;border-radius:10px;color:#cfeefc;resize:none}
-.auth-backdrop{position:fixed;inset:0;background:rgba(2,6,13,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:10}
-.auth-box{width:460px;max-width:92%;padding:20px;border-radius:12px;background:linear-gradient(180deg,#021428,#021829);border:1px solid rgba(96,208,255,0.06);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
-.auth-box h2{margin:0 0 8px 0}
-.pin{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted)}
-.auth-btn{margin-top:12px}
-@media(max-width:1100px){.container{height:88vh;grid-template-columns:1fr;max-width:980px}.left{order:2;height:46vh;overflow:auto}.right{order:1}.header{display:flex;gap:12px}}
+:root {
+  --bg0: #020617;
+  --bg1: #04102a;
+  --panel: #07162a;
+  --muted: #9bb0c8;
+  --accent: #60d0ff;
+  --accent2: #6ee7b7;
+  --glass: rgba(255,255,255,0.03);
+  --radius: 14px;
+  --pad: 14px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+}
+* { box-sizing: border-box }
+html, body { height: 100%; margin: 0; background: var(--bg0); color: #e8f6ff; overflow: auto }
+body { display: flex; align-items: center; justify-content: center; padding: 26px }
+.bg-grid {
+  position: fixed; inset: 0; pointer-events: none; mix-blend-mode: overlay; opacity: 0.3;
+  background-image: linear-gradient(0deg, rgba(96,208,255,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(96,208,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  animation: moveGrid 40s linear infinite, pulse 6s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes moveGrid { 0%{background-position:0 0,0 0} 100%{background-position:800px 800px,-800px -800px} }
+@keyframes pulse { 0%{opacity:0.25} 50%{opacity:0.32} 100%{opacity:0.25} }
+.container {
+  position: relative; z-index: 2; width: 1200px; max-width: calc(100vw - 40px); height: 760px;
+  border-radius: 18px; padding: 18px 18px 0 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
+  box-shadow: 0 12px 40px rgba(3,12,30,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  display: grid; grid-template-columns: 1fr 480px; grid-template-rows: auto 1fr; gap: 20px; overflow: visible;
+  border: 1px solid rgba(96,208,255,0.03);
+}
+.header { display: flex; gap: 12px; align-items: center; padding: 8px 6px 12px; grid-column: 1 / span 2; }
+.logo { width: 64px; height: 64px; border-radius: 12px; background: #07162a; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(3,12,30,0.6) }
+.logo img { max-width: 100%; max-height: 100%; }
+.hgroup h1 { margin: 0; font-size: 18px }
+.hgroup p { margin: 0; color: var(--muted); font-size: 13px }
+.left { padding: 6px 6px 12px; display: flex; flex-direction: column; gap: 10px; overflow: auto }
+.controls-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px }
+.controls-top .actions { display: flex; gap: 8px }
+.btn { background: linear-gradient(90deg,#053b5a,#02324a); color: var(--accent); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(96,208,255,0.08); cursor: pointer; backdrop-filter: blur(4px); font-weight: 600 }
+.btn.secondary { background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.03) }
+.small { padding: 6px 10px; font-size: 13px; border-radius: 9px }
+.screen-list { display: grid; gap: 10px; padding: 6px }
+.screen-card {
+  display: grid; grid-template-columns: 1fr 84px; gap: 10px; padding: 10px; border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+  border: 1px solid rgba(255,255,255,0.02); align-items: center;
+}
+.screen-card .meta { font-weight: 600 }
+.screen-card .url { color: var(--muted); font-size: 12px; word-break: break-all }
+.right { display: flex; flex-direction: column; gap: 10px }
+.preview { flex: 1; border-radius: 12px; background: linear-gradient(180deg,#021026,#071a2b); display: flex; align-items: center; justify-content: center; overflow: auto; border: 1px solid rgba(255,255,255,0.02) }
+.preview img { max-width: 100%; max-height: 100%; display: block }
+.side-panel { display: flex; flex-direction: column; gap: 10px; padding: 10px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008)); border: 1px solid rgba(255,255,255,0.02) }
+.field { display: flex; flex-direction: column; gap: 6px }
+.input { background: transparent; border: 1px solid rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; color: inherit }
+.row { display: flex; gap: 8px; align-items: center }
+.checkbox { display: flex; gap: 8px; align-items: center; color: var(--muted) }
+.meta-row { display: flex; justify-content: space-between; gap: 8px; align-items: center; color: var(--muted) }
+textarea { width: 100%; height: 170px; background: #031020; border: 1px solid rgba(255,255,255,0.02); padding: 10px; border-radius: 10px; color: #cfeefc; resize: none }
+.auth-backdrop { position: fixed; inset: 0; background: rgba(2,6,13,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10 }
+.auth-box { width: 460px; max-width: 92%; padding: 20px; border-radius: 12px; background: linear-gradient(180deg,#021428,#021829); border: 1px solid rgba(96,208,255,0.06); box-shadow: 0 20px 60px rgba(0,0,0,0.6) }
+.auth-box h2 { margin: 0 0 8px 0 }
+.pin { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); background: transparent; color: var(--muted) }
+.auth-btn { margin-top: 12px }
+@media(max-width:1100px) {
+  .container { height: 88vh; grid-template-columns: 1fr; max-width: 980px }
+  .left { order: 2; height: 46vh; overflow: auto }
+  .right { order: 1 }
+  .header { display: flex; gap: 12px }
+}
 </style>
 </head>
 <body>
@@ -55,9 +87,6 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
     <div class="hgroup">
       <h1>Fnam Admin Screen Editor</h1>
       <p>ingame screen editor · preview · deploy hook</p>
-    </div>
-    <div style="margin-left:auto">
-      <button id="btnPositions" class="btn small">Positions</button>
     </div>
   </div>
   <div class="left" id="leftCol">
@@ -100,7 +129,6 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
     </div>
   </div>
 </div>
-
 <div class="auth-backdrop" id="auth">
   <div class="auth-box">
     <h2>Enter access code</h2>
@@ -109,22 +137,6 @@ textarea{width:100%;height:170px;background:#031020;border:1px solid rgba(255,25
     <div id="authMsg" style="margin-top:8px;color:var(--muted)"></div>
   </div>
 </div>
-
-<div class="auth-backdrop" id="positionsModal" style="display:none">
-  <div class="auth-box" style="max-width:600px; overflow:auto; max-height:80vh">
-    <h2>Screen Positions</h2>
-    <div id="positionsList" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;overflow:auto"></div>
-    <button id="closePositions" class="btn auth-btn" style="margin-top:12px">Close</button>
-  </div>
-</div>
-
-<div class="auth-backdrop" id="imagePopup" style="display:none">
-  <div class="auth-box" style="max-width:300px; text-align:center;">
-    <div id="imagePopupText">TEST TEST TEST</div>
-    <button id="closeImagePopup" class="btn auth-btn" style="margin-top:12px">Close</button>
-  </div>
-</div>
-
 <script>
 const REQUIRED_CODE="AdminPanel39";
 const NETLIFY_HOOK="https://api.netlify.com/build_hooks/68e6195e434d22222939390a";
@@ -145,7 +157,6 @@ const accessCode=document.getElementById('accessCode');
 const authMsg=document.getElementById('authMsg');
 const uploadBtn=document.getElementById('btnUpload');
 const uploadInput=document.getElementById('uploadInput');
-
 uploadBtn.addEventListener('click',()=>uploadInput.click());
 uploadInput.addEventListener('change',e=>{
   const file=e.target.files[0];
@@ -238,40 +249,6 @@ const s=document.createElement('style');
 s.innerHTML=`.shake{animation:shake 0.35s}@keyframes shake{0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}}`;
 document.head.appendChild(s);
 loadJSON();
-
-const btnPositions=document.getElementById('btnPositions');
-const positionsModal=document.getElementById('positionsModal');
-const positionsList=document.getElementById('positionsList');
-const closePositions=document.getElementById('closePositions');
-const imagePopup=document.getElementById('imagePopup');
-const closeImagePopup=document.getElementById('closeImagePopup');
-
-btnPositions.addEventListener('click',()=>{
-  renderPositions();
-  positions
-```
-
-
-Modal.style.display='flex';
-});
-closePositions.addEventListener('click',()=>positionsModal.style.display='none');
-
-function renderPositions(){
-positionsList.innerHTML='';
-Object.keys(model).forEach(k=>{
-const meta=model[k];
-const card=document.createElement('div');
-card.style.display='flex'; card.style.flexDirection='column'; card.style.alignItems='center';
-card.style.background='linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008))';
-card.style.border='1px solid rgba(2,6,13,0.3)'; card.style.padding='10px'; card.style.borderRadius='12px'; card.style.cursor='pointer';
-const img=document.createElement('img'); img.src=meta.url||''; img.style.width='100%'; img.style.borderRadius='10px';
-img.addEventListener('click',()=>{ imagePopup.style.display='flex'; document.getElementById('imagePopupText').textContent='TEST TEST TEST'; });
-const label=document.createElement('div'); label.textContent=k; label.style.marginTop='6px'; label.style.fontSize='14px';
-card.appendChild(img); card.appendChild(label); positionsList.appendChild(card);
-});
-}
-
-closeImagePopup.addEventListener('click',()=>imagePopup.style.display='none'); </script>
-
+</script>
 </body>
 </html>
