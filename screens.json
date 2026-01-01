@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://i.ibb.co/w3ZHY7r/hereee.png"
+    "enabled": false,
+    "url": ""
   },
   "screen2": {
     "enabled": false,
