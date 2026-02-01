@@ -1,11 +1,11 @@
 {
   "screen1": {
-    "enabled": true,
-    "url": "https://i.ibb.co/FkBtbytg/Up-2009-film.jpg"
-  },
-  "screen2": {
     "enabled": false,
     "url": ""
+  },
+  "screen2": {
+    "enabled": true,
+    "url": "https://i.ibb.co/FkBtbytg/Up-2009-film.jpg"
   },
   "screen3": {
     "enabled": false,
