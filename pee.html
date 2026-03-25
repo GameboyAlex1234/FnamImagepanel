@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen Video Loop</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      pointer-events: none; /* disables interaction */
+    }
+  </style>
+</head>
+<body>
+
+<video autoplay muted loop playsinline>
+  <source src="https://fnamimagepanel.netlify.app/YTDown.com_YouTube_MaxAMil-Never-Quit-Feat-Chowtown93-Offic_Media_Yc2OGSexCJU_001_1080p%20(1).mp4" type="video/mp4">
+</video>
+
+<script>
+  const video = document.querySelector("video");
+
+  // Try to force fullscreen (may require user interaction in some browsers)
+  video.addEventListener("loadeddata", () => {
+    if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {});
+    }
+  });
+
+  // Prevent pausing via keyboard (extra safety)
+  document.addEventListener("keydown", (e) => {
+    e.preventDefault();
+  });
+</script>
+
+</body>
+</html>
