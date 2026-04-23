@@ -1,7 +1,7 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAr886otKpqAlngFEaiGpKbFcvLLFrMm9s6w&s"
   },
   "screen2": {
     "enabled": false,
