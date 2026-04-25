@@ -1,11 +1,11 @@
 {
   "screen1": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/zV7X3gpH/Triple-T.png"
   },
   "screen2": {
-    "enabled": false,
-    "url": ""
+    "enabled": true,
+    "url": "https://i.ibb.co/zV7X3gpH/Triple-T.png"
   },
   "screen3": {
     "enabled": false,
